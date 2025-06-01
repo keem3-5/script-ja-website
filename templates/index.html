@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScriptJa - Business Solutions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+    {# --- Flashed Messages Area --- #}
+    <ul class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        </ul>
+        {# --- End Flashed Messages Area --- #}
+
+    <header class="hero-section">
+        <div class="logo-area">
+            <img src="{{ url_for('static', filename='logo_placeholder.png') }}" alt="ScriptJa Logo" class="logo">
+            <h1>Script Technologies Jamaica</h1>
+            <p>Business Solutions: Accounting & Document Preparation</p>
+        </div>
+
+        <div class="scroll-down-container">
+        <a href="#services-section" class="scroll-button">
+        Scroll Down for Services &darr; </a>
+        </div>
+    </header>
+
+    <section id="services-section" class="services-section">
+        <h2>Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Accounting Services</h3>
+                <p>
+                    We provide comprehensive accounting solutions including bookkeeping,
+                    financial statement preparation, tax planning and filing, payroll processing,
+                    and business advisory to help manage your finances effectively.
+                </p>
+                <a href="{{ url_for('contact', service_type='accounting') }}" class="contact-button">Inquire about Accounting</a>
+            </div>
+
+            <div class="service-card">
+                <h3>Document Preparation Services</h3>
+                <p>
+                    Our professional document preparation services simplify your personal and business needs. 
+                    We expertly handle uncontested divorce paperwork, will creation, contract drafting, and business policies. 
+                    We also provide data protection guidance and craft standout resumes and cover letters for job seekers. 
+                    Let us manage your documentation so you can focus on what truly matters!
+                </p>
+                <a href="{{ url_for('contact', service_type='Legal') }}" class="contact-button">Inquire about Document Preparation</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Script Technologies Jamaica. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

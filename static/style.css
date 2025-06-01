@@ -1,0 +1,264 @@
+/* static/style.css */
+
+/* --- Variables --- */
+:root {
+    --color-black: #000;
+    --color-light-blue: #00BFFF; /* A vibrant light blue */
+    --color-white: #fff;
+    --color-dark-grey: #333;
+    --color-darker-blue: #0099CC; /* Slightly darker blue for hover effects */
+}
+
+/* --- Global Styles --- */
+body {
+    font-family: sans-serif; /* Modern, clean font */
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-black);
+    color: var(--color-white); /* Changed body text to white for better contrast on black */
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    color: var(--color-light-blue); /* Headings are light blue */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+a {
+    color: var(--color-light-blue);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-white); /* Links turn white on hover */
+}
+
+/* --- Header (Hero Section) --- */
+.hero-section {
+    height: 100vh; /* Make the header fill the viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative; /* Needed for scroll button absolute positioning */
+    padding: 20px;
+}
+
+.logo-area img {
+    max-width: 200px; /* Adjust size as needed */
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.logo-area h1 {
+    font-size: 3em;
+    margin: 0 0 10px 0;
+    color: var(--color-light-blue); /* Logo area heading is light blue */
+}
+
+.logo-area p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    color: var(--color-white); /* Logo area paragraph is white */
+}
+
+.scroll-down-container {
+    position: absolute;
+    bottom: 40px; /* Position it near the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10; /* Ensure it's above other content */
+}
+
+.scroll-button {
+    display: inline-block;
+    padding: 12px 25px;
+    border: 2px solid var(--color-light-blue); /* Border is light blue */
+    color: var(--color-light-blue); /* Text color is light blue */
+    background-color: transparent;
+    border-radius: 5px;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.scroll-button:hover {
+    background-color: var(--color-light-blue); /* Background becomes light blue on hover */
+    color: var(--color-black); /* Text color becomes black on hover */
+}
+
+/* --- Services Section --- */
+.services-section {
+    padding: 60px 20px;
+    background-color: var(--color-black); /* Explicitly black */
+    min-height: 100vh; /* Ensure it takes at least full height after scrolling */
+}
+
+.services-grid {
+    display: flex;
+    flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
+    gap: 40px; /* Space between cards */
+    justify-content: center; /* Center cards horizontally */
+}
+
+.service-card {
+    background-color: var(--color-dark-grey); /* Darker grey background for cards */
+    color: var(--color-white); /* Text color on cards */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    max-width: 400px; /* Max width for cards */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push button to bottom */
+    flex: 1 1 300px; /* Flex properties for responsiveness */
+}
+
+.service-card h3 {
+    color: var(--color-light-blue); /* Card titles in light blue */
+    margin-top: 0;
+}
+
+.service-card p {
+    color: var(--color-white); /* Paragraph text in white */
+    margin-bottom: 20px;
+    flex-grow: 1; /* Allow paragraph to take up space */
+}
+
+.contact-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid var(--color-light-blue); /* Border is light blue */
+    color: var(--color-light-blue); /* Text color is light blue */
+    background-color: transparent;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: 15px; /* Space above the button */
+}
+
+.contact-button:hover {
+    background-color: var(--color-light-blue); /* Background becomes light blue on hover */
+    color: var(--color-black); /* Text color becomes black on hover */
+}
+
+
+/* --- Contact Form Page --- */
+.page-header {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: var(--color-black);
+}
+
+.logo-small {
+    max-width: 100px; /* Smaller logo for inner pages */
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.contact-form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--color-dark-grey); /* Background for the form area */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: var(--color-white);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--color-light-blue); /* Labels in light blue */
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+    width: calc(100% - 20px); /* Adjust width considering padding */
+    padding: 10px;
+    border: 1px solid var(--color-light-blue); /* Border is light blue */
+    border-radius: 4px;
+    background-color: var(--color-black); /* Black input background */
+    color: var(--color-white); /* White text input */
+    font-size: 1em;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-white); /* Border becomes white on focus */
+    box-shadow: 0 0 5px rgba(0, 191, 255, 0.5); /* Light blue glow on focus (RGB for #00BFFF) */
+}
+
+textarea {
+    resize: vertical; /* Allow vertical resizing */
+}
+
+.submit-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: var(--color-light-blue); /* Background is light blue */
+    color: var(--color-black); /* Text is black */
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: var(--color-darker-blue); /* Slightly darker blue on hover */
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--color-dark-grey); /* Dark grey footer */
+    color: var(--color-white);
+    font-size: 0.9em;
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2em;
+    }
+
+    .logo-area img {
+        max-width: 150px;
+    }
+
+    .services-grid {
+        flex-direction: column; /* Stack cards vertically */
+        align-items: center;
+    }
+
+    .service-card {
+        width: 90%; /* Cards take more width on small screens */
+        max-width: none; /* Remove max-width constraint */
+    }
+
+    .contact-form-container {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group textarea {
+        width: calc(100% - 20px); /* Ensure padding is accounted for */
+    }
+}
