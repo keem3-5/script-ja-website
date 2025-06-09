@@ -22,19 +22,20 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        </ul>
-        {# --- End Flashed Messages Area --- #}
+    </ul>
+    {# --- End Flashed Messages Area --- #}
 
     <header class="hero-section">
         <div class="logo-area">
-          <img src="static/SCRIPT-LOGO-WITH-SLOGAN-01.png" alt="Script Ja Logo">
+            {# Corrected path to logo in 'static/images' folder #}
+            <img src="{{ url_for('static', filename='images/SCRIPT-LOGO-WITH-SLOGAN-01.png') }}" alt="Script Ja Logo">
             <h1>Script Technologies Jamaica</h1>
             <p>Business Solutions: Accounting & Document Preparation</p>
         </div>
 
         <div class="scroll-down-container">
-        <a href="#services-section" class="scroll-button">
-        Scroll Down for Services &darr; </a>
+            <a href="#services-section" class="scroll-button">
+            Scroll Down for Services &darr; </a>
         </div>
     </header>
 
