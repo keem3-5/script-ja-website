@@ -121,15 +121,18 @@ Message:
 
     
  
+    # Validate service type first
     valid_services = ['accounting', 'legal']
     if service_type.lower() not in valid_services:
-        
         return redirect(url_for('index')) 
 
-   
-    display_service_type = service_display_names.get(service_type.lower(), service_type.capitalize())
+    if request.method == 'POST':
+    # ... existing POST handling code ...
 
-    return render_template('contact.html', service_type=display_service_type)
+    # Pass both the display name and the original service_type for the form action
+    return render_template('contact.html', 
+                     service_type=display_name, 
+                     service_type_url=service_type.lower())
 
 
 
