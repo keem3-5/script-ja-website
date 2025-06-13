@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import os
 import smtplib
 from email.message import EmailMessage
-from urllib.parse import unquote
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -49,15 +48,15 @@ def contact(service_type):
     Handles displaying and processing the contact form for a specific service.
     Args:
         service_type (str): The type of service the user is inquiring about
-                            (e.g., 'accounting', 'legal document preparation', 'legal_document_preparation').
+                            (e.g., 'accounting', 'legal').
     """
-    valid_services = ['accounting', 'legal document preparation', 'legal_document_preparation']
-    decoded_service_type = unquote(service_type).lower()
-    if decoded_service_type not in valid_services:
+    valid_services = ['accounting', 'legal document preparation']
+    if service_type.lower() not in valid_services:
         flash(f"Invalid service type: {service_type}.", 'error')
         return redirect(url_for('index'))
 
     if request.method == 'POST':
+        user_name = request.form.get('name')
         user_email = request.form.get('email')
         subject = request.form.get('subject')
         message_body = request.form.get('message')
@@ -65,24 +64,24 @@ def contact(service_type):
         # Basic validation for form fields
         if not all([user_email, subject, message_body]):
             flash('Please fill in all required fields.', 'error')
-            return redirect(url_for('contact', service_type=decoded_service_type))
+            return redirect(url_for('contact', service_type=service_type))
 
         # Check if email configuration is complete before attempting to send
         if not all([SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL, SMTP_SERVER, SMTP_PORT]):
             flash('Server email configuration incomplete. Cannot send inquiry.', 'error')
             print("ERROR: Email sending configuration is incomplete. Check environment variables.")
-            return redirect(url_for('contact', service_type=decoded_service_type))
+            return redirect(url_for('contact', service_type=service_type))
 
         # --- Email Sending Logic ---
         msg = EmailMessage()
-        msg['Subject'] = f"Script Technologies Jamaica Service Inquiry: {decoded_service_type.capitalize()} - {subject}"
+        msg['Subject'] = f"ScriptJa Service Inquiry: {service_type.capitalize()} - {subject}"
         msg['From'] = SENDER_EMAIL
         msg['To'] = RECIPIENT_EMAIL
         msg['Reply-To'] = user_email # Set Reply-To to the user's email
 
         email_body_content = f"""
-Service Type: {decoded_service_type.capitalize()}
-From Name: N/A
+Service Type: {service_type.capitalize()}
+From Name: {user_name if user_name else 'N/A'}
 From Email: {user_email}
 Subject: {subject}
 
@@ -133,7 +132,7 @@ Message:
         return redirect(url_for('index'))
 
     # If it's a GET request, render the contact form
-    display_service_type = unquote(service_type).replace('_', ' ').title()
+    display_service_type = service_type.capitalize()
     return render_template('contact.html', service_type=display_service_type)
 
 
