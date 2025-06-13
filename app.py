@@ -59,12 +59,6 @@ def contact(service_type):
         service_type (str): The type of service the user is inquiring about
                             (e.g., 'accounting', 'legal').
     """
-     service_display_names = {
-'accounting': 'Accounting',
-   'legal': 'Legal Document Preparation'  # Keep URL as 'legal', display as full name
-}
-    display_name = service_display_names.get(service_type, service_type.capitalize())
-
     if request.method == 'POST':
         # --- Process the submitted form data ---
 
@@ -76,7 +70,7 @@ def contact(service_type):
         # --- Email Sending Logic ---
         # Create the email content
         msg = EmailMessage()
-        msg['Subject'] = f"ScriptJa Service Inquiry: {display_name} - {subject}"
+        msg['Subject'] = f"ScriptJa Service Inquiry: {service_type.capitalize()} - {subject}"
         # It's better to set the 'From' field to your sending email, and include
         # the user's email in the body or as a Reply-To header.
         msg['From'] = SENDER_EMAIL
@@ -84,7 +78,7 @@ def contact(service_type):
 
        
         email_body_content = f"""
-Service Type: {display_name}
+Service Type: {service_type.capitalize()}
 From Email: {user_email}
 Subject: {subject}
 
@@ -100,7 +94,7 @@ Message:
                 server.send_message(msg)
 
             print("\n--- Email Sent Successfully ---")
-            print(f"Inquiry for {display_name} from {user_email} sent to {RECIPIENT_EMAIL}")
+            print(f"Inquiry for {service_type} from {user_email} sent to {RECIPIENT_EMAIL}")
             print("Email Sent!!\n")
 
             # Redirect to a success page or the homepage
@@ -110,7 +104,7 @@ Message:
         except Exception as e:
             # Log the error and perhaps redirect to an error page
             print(f"\n--- Error Sending Email ---")
-            print(f"Could not send email for {display_name} inquiry.")
+            print(f"Could not send email for {service_type} inquiry.")
             print(f"Error: {e}")
             print("Email failed to send.\n")
 
@@ -121,18 +115,15 @@ Message:
 
     
  
-    # Validate service type first
     valid_services = ['accounting', 'legal']
     if service_type.lower() not in valid_services:
+        
         return redirect(url_for('index')) 
 
-    if request.method == 'POST':
-    # ... existing POST handling code ...
+   
+    display_service_type = service_type.capitalize()
 
-    # Pass both the display name and the original service_type for the form action
-    return render_template('contact.html', 
-                     service_type=display_name, 
-                     service_type_url=service_type.lower())
+    return render_template('contact.html', service_type=display_service_type)
 
 
 
