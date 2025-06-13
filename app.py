@@ -63,7 +63,7 @@ def contact(service_type):
     'accounting': 'Accounting',
     'legal': 'Legal Document Preparation'  # Keep URL as 'legal', display as full name
 }
-    
+    display_name = service_display_names.get(service_type.lower(), service_type.capitalize())
     if request.method == 'POST':
         # --- Process the submitted form data ---
 
@@ -75,7 +75,6 @@ def contact(service_type):
         # --- Email Sending Logic ---
         # Create the email content
         msg = EmailMessage()
-        display_name = service_display_names.get(service_type.lower(), service_type.capitalize())
         msg['Subject'] = f"ScriptJa Service Inquiry: {display_name} - {subject}"
         # It's better to set the 'From' field to your sending email, and include
         # the user's email in the body or as a Reply-To header.
