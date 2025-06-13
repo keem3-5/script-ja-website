@@ -49,7 +49,7 @@ def contact(service_type):
     Handles displaying and processing the contact form for a specific service.
     Args:
         service_type (str): The type of service the user is inquiring about
-                            (e.g., 'accounting', 'legal document preparation').
+                            (e.g., 'accounting', 'legal').
     """
     valid_services = ['accounting', 'legal']
     decoded_service_type = unquote(service_type).lower()
