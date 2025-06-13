@@ -99,7 +99,7 @@ Message:
                 server.send_message(msg)
 
             print("\n--- Email Sent Successfully ---")
-            print(f"Inquiry for {service_type} from {user_email} sent to {RECIPIENT_EMAIL}")
+            print(f"Inquiry for {display_name} from {user_email} sent to {RECIPIENT_EMAIL}")
             print("Email Sent!!\n")
 
             # Redirect to a success page or the homepage
@@ -109,7 +109,7 @@ Message:
         except Exception as e:
             # Log the error and perhaps redirect to an error page
             print(f"\n--- Error Sending Email ---")
-            print(f"Could not send email for {service_type} inquiry.")
+            print(f"Could not send email for {display_name} inquiry.")
             print(f"Error: {e}")
             print("Email failed to send.\n")
 
