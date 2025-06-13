@@ -84,7 +84,7 @@ def contact(service_type):
 
        
         email_body_content = f"""
-Service Type: {service_type.capitalize()}
+Service Type: {display_name}
 From Email: {user_email}
 Subject: {subject}
 
