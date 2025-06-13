@@ -50,7 +50,7 @@ def contact(service_type):
         service_type (str): The type of service the user is inquiring about
                             (e.g., 'accounting', 'legal document preparation').
     """
-    valid_services = ['Accounting', 'Legal Document Preparation']
+    valid_services = ['accounting', 'legal document preparation']
     if service_type.lower() not in valid_services:
         flash(f"Invalid service type: {service_type}.", 'error')
         return redirect(url_for('index'))
