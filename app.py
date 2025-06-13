@@ -51,11 +51,18 @@ def contact(service_type):
         service_type (str): The type of service the user is inquiring about
                             (e.g., 'accounting', 'legal document preparation', 'legal_document_preparation').
     """
-    valid_services = ['accounting', 'legal document preparation', 'legal_document_preparation']
-    decoded_service_type = unquote(service_type).lower()
-    if decoded_service_type not in valid_services:
-        flash(f"Invalid service type: {service_type}.", 'error')
-        return redirect(url_for('index'))
+    valid_services = {
+    'accounting': 'Accounting',
+    'legal-document-preparation': 'Legal Document Preparation'
+}
+
+slug = service_type.lower()
+if slug not in valid_services:
+    flash(f"Invalid service type: {service_type}.", 'error')
+    return redirect(url_for('index'))
+
+display_service_type = valid_services[slug]
+
 
     if request.method == 'POST':
         user_email = request.form.get('email')
