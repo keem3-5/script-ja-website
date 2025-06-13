@@ -14,7 +14,7 @@
     </header>
 
     <main class="contact-form-container">
-        <form action="{{ url_for('contact', service_type=service_type.lower().replace(' ', '%20')) }}" method="POST">
+        <form action="{{ url_for('contact', service_type=service_type_url) }}" method="POST">
             <div class="form-group">
                 <label for="email">Your Email:</label>
                 <input type="email" id="email" name="email" required>
