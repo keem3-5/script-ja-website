@@ -75,7 +75,8 @@ def contact(service_type):
         # --- Email Sending Logic ---
         # Create the email content
         msg = EmailMessage()
-        msg['Subject'] = f"ScriptJa Service Inquiry: {service_type.capitalize()} - {subject}"
+        display_name = service_display_names.get(service_type.lower(), service_type.capitalize())
+        msg['Subject'] = f"ScriptJa Service Inquiry: {display_name} - {subject}"
         # It's better to set the 'From' field to your sending email, and include
         # the user's email in the body or as a Reply-To header.
         msg['From'] = SENDER_EMAIL
@@ -126,7 +127,7 @@ Message:
         return redirect(url_for('index')) 
 
    
-    display_service_type = service_type.capitalize()
+    display_service_type = service_display_names.get(service_type.lower(), service_type.capitalize())
 
     return render_template('contact.html', service_type=display_service_type)
 
