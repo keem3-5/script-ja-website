@@ -59,12 +59,12 @@ def contact(service_type):
         service_type (str): The type of service the user is inquiring about
                             (e.g., 'accounting', 'legal').
     """
-   #  service_display_names = {
-# 'accounting': 'Accounting',
-#    'legal': 'Legal Document Preparation'  # Keep URL as 'legal', display as full name
-#}
-#    display_name = service_display_names.get(service_type, service_type.capitalize())
-    display_name = service_type.capitalize()
+     service_display_names = {
+'accounting': 'Accounting',
+   'legal': 'Legal Document Preparation'  # Keep URL as 'legal', display as full name
+}
+    display_name = service_display_names.get(service_type, service_type.capitalize())
+
     if request.method == 'POST':
         # --- Process the submitted form data ---
 
