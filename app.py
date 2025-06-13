@@ -66,23 +66,23 @@ def contact(service_type):
         # Basic validation for form fields
         if not all([user_email, subject, message_body]):
             flash('Please fill in all required fields.', 'error')
-            return redirect(url_for('contact', service_type=service_type))
+            return redirect(url_for('contact', service_type=decoded_service_type))
 
         # Check if email configuration is complete before attempting to send
         if not all([SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL, SMTP_SERVER, SMTP_PORT]):
             flash('Server email configuration incomplete. Cannot send inquiry.', 'error')
             print("ERROR: Email sending configuration is incomplete. Check environment variables.")
-            return redirect(url_for('contact', service_type=service_type))
+            return redirect(url_for('contact', service_type=decoded_service_type))
 
         # --- Email Sending Logic ---
         msg = EmailMessage()
-        msg['Subject'] = f"Script Technologies Jamaica Service Inquiry: {service_type.capitalize()} - {subject}"
+        msg['Subject'] = f"Script Technologies Jamaica Service Inquiry: {decoded_service_type.capitalize()} - {subject}"
         msg['From'] = SENDER_EMAIL
         msg['To'] = RECIPIENT_EMAIL
         msg['Reply-To'] = user_email # Set Reply-To to the user's email
 
         email_body_content = f"""
-Service Type: {service_type.capitalize()}
+Service Type: {decoded_service_type.capitalize()}
 From Name: {user_name if user_name else 'N/A'}
 From Email: {user_email}
 Subject: {subject}
