@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import os
 import smtplib
 from email.message import EmailMessage
+from urllib.parse import unquote
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -51,7 +52,8 @@ def contact(service_type):
                             (e.g., 'accounting', 'legal document preparation').
     """
     valid_services = ['accounting', 'legal document preparation']
-    if service_type.lower() not in valid_services:
+    decoded_service_type = unquote(service_type).lower()
+    if decoded_service_type not in valid_services:
         flash(f"Invalid service type: {service_type}.", 'error')
         return redirect(url_for('index'))
 
@@ -132,7 +134,7 @@ Message:
         return redirect(url_for('index'))
 
     # If it's a GET request, render the contact form
-    display_service_type = service_type.capitalize()
+    display_service_type = unquote(service_type).replace('_', ' ').title()
     return render_template('contact.html', service_type=display_service_type)
 
 
