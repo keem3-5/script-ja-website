@@ -1,0 +1,36 @@
+# app.yaml
+
+# Specifies the runtime environment for your application.
+# For Flask applications, you'll typically use a Python runtime.
+# Make sure to use the specific Python version you are developing with.
+# For example, use 'python39', 'python310', 'python311', etc.
+runtime: python39
+
+# This section defines how App Engine handles incoming URL requests.
+handlers:
+# Handler for static files (CSS, JavaScript, images like your logo).
+# Requests starting with '/static' will be served directly from the 'static' directory
+# located at the root of your application. This offloads static file serving
+# from your Flask application, making it more efficient.
+- url: /static
+  static_dir: static
+  # Optional: You can add caching headers for static files to improve performance.
+  # For example, to cache for 7 days (604800 seconds):
+  # expiration: 7d
+
+# This is a catch-all handler for all other URL requests not handled by the
+# static file handler. These requests will be directed to your Flask application.
+# 'script: auto' tells App Engine to automatically detect your application entry point.
+# If your Flask app is named 'app' in 'main.py', you could also use 'script: main.app'.
+- url: /.*
+  script: auto
+
+# Optional: Environment variables can be defined here.
+# These variables will be accessible within your Flask application.
+# env_variables:
+#   MY_VARIABLE: "my_value"
+
+# Optional: Entrypoint command for your application.
+# This is more common in the App Engine Flexible environment.
+# For standard, 'script: auto' usually suffices.
+# entrypoint: gunicorn -b :$PORT main:app # Example for Gunicorn if your app is 'app' in 'main.py'
