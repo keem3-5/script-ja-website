@@ -58,7 +58,6 @@ def contact(service_type):
         return redirect(url_for('index'))
 
     if request.method == 'POST':
-        user_name = request.form.get('name')
         user_email = request.form.get('email')
         subject = request.form.get('subject')
         message_body = request.form.get('message')
@@ -83,7 +82,7 @@ def contact(service_type):
 
         email_body_content = f"""
 Service Type: {decoded_service_type.capitalize()}
-From Name: {user_name if user_name else 'N/A'}
+From Name: N/A
 From Email: {user_email}
 Subject: {subject}
 
