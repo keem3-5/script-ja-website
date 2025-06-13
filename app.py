@@ -143,6 +143,6 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
     # In production, debug=False is crucial for security and performance.
     # On Cloud Run, 'host' is not typically needed; it listens on the assigned port.
-    app.run(debug=False, port=port)
+    app.run(debug=True, port=port)
 # Note: In production, ensure to set the environment variables securely.
 # This includes using Cloud Secret Manager for sensitive data like passwords.
