@@ -1,38 +1,45 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-import os
+from flask import Flask, render_template, request, redirect, url_for, flash, get_flashed_messages
 import smtplib
 from email.message import EmailMessage
+import os 
 
 # Initialize the Flask application
 app = Flask(__name__)
 
-# Flask secret key for session management and CSRF protection
-# IMPORTANT: This MUST be set as an environment variable in production (e.g., in Cloud Run settings).
-# Without it, session management and CSRF protection will not work securely.
-app.secret_key = os.environ.get('FLASK_SECRET_KEY')
-
+app.secret_key = os.environ.get('app_secret_key') # Set a secret key for session management and CSRF protection
 # --- Configuration ---
-# Read credentials and server details from environment variables
-# These variables MUST be set in your production environment (e.g., Cloud Run environment variables).
 
-SENDER_EMAIL = os.environ.get('SENDER_EMAIL')
-SENDER_PASSWORD = os.environ.get('SENDER_PASSWORD') # For production, use secure secrets management (e.g., Cloud Secret Manager)
-RECIPIENT_EMAIL = os.environ.get('RECIPIENT_EMAIL')
-SMTP_SERVER = os.environ.get('SMTP_SERVER')
-SMTP_PORT_STR = os.environ.get('SMTP_PORT')
+# --- Email Configuration ---
+# Read credentials and server details from environment variables
+
+SENDER_EMAIL = os.environ.get('SENDER_EMAIL') # Get sending email from ENV
+SENDER_PASSWORD = os.environ.get('SENDER_PASSWORD') # Get password from ENV (use Secrets in production)
+RECIPIENT_EMAIL = os.environ.get('RECIPIENT_EMAIL') # Get recipient email from ENV
+SMTP_SERVER = os.environ.get('SMTP_SERVER') # Get SMTP server from ENV
+SMTP_PORT = os.environ.get('SMTP_PORT') # Get SMTP port from ENV
+
+# --- Basic Check (Optional but Recommended) ---
+# Add checks to ensure the variables are set, especially in production
+if not all([SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL, SMTP_SERVER, SMTP_PORT]):
+    print("Warning: Email environment variables are not fully configured!")
+    print("Email sending will likely fail until SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL, SMTP_SERVER, SMTP_PORT are set.")
+    # In a production app, you might want to raise an error or log more critically
+    # if app.env == 'production': # Check Flask environment if configured
+    #    raise ValueError("Email environment variables must be set in production!")
+# --- End Basic Check ---
+
 
 # Ensure SMTP_PORT is an integer
-SMTP_PORT = None
-if SMTP_PORT_STR:
-    try:
-        SMTP_PORT = int(SMTP_PORT_STR)
-    except ValueError:
-        print(f"ERROR: SMTP_PORT '{SMTP_PORT_STR}' is not a valid integer. Email sending will fail.")
-else:
-    print("ERROR: SMTP_PORT environment variable is not set. Email sending will fail.")
+try:
+    SMTP_PORT = int(SMTP_PORT) if SMTP_PORT else None
+except ValueError:
+    print(f"Error: SMTP_PORT '{SMTP_PORT}' is not a valid integer.")
+    SMTP_PORT = None # Set to None if invalid
+
 
 # --- Routes ---
 
+# Route for the homepage
 @app.route('/')
 def index():
     """
@@ -42,6 +49,8 @@ def index():
     """
     return render_template('index.html')
 
+# Route for handling contact form submissions
+
 @app.route('/contact/<service_type>', methods=['GET', 'POST'])
 def contact(service_type):
     """
@@ -50,38 +59,26 @@ def contact(service_type):
         service_type (str): The type of service the user is inquiring about
                             (e.g., 'accounting', 'legal').
     """
-    valid_services = ['accounting', 'legal']
-    if service_type.lower() not in valid_services:
-        flash(f"Invalid service type: {service_type}.", 'error')
-        return redirect(url_for('index'))
-
     if request.method == 'POST':
-        user_name = request.form.get('name')
+        # --- Process the submitted form data ---
+
+        
         user_email = request.form.get('email')
         subject = request.form.get('subject')
-        message_body = request.form.get('message')
-
-        # Basic validation for form fields
-        if not all([user_email, subject, message_body]):
-            flash('Please fill in all required fields.', 'error')
-            return redirect(url_for('contact', service_type=service_type))
-
-        # Check if email configuration is complete before attempting to send
-        if not all([SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL, SMTP_SERVER, SMTP_PORT]):
-            flash('Server email configuration incomplete. Cannot send inquiry.', 'error')
-            print("ERROR: Email sending configuration is incomplete. Check environment variables.")
-            return redirect(url_for('contact', service_type=service_type))
+        message_body = request.form.get('message') # Renamed to avoid conflict with EmailMessage
 
         # --- Email Sending Logic ---
+        # Create the email content
         msg = EmailMessage()
         msg['Subject'] = f"ScriptJa Service Inquiry: {service_type.capitalize()} - {subject}"
+        # It's better to set the 'From' field to your sending email, and include
+        # the user's email in the body or as a Reply-To header.
         msg['From'] = SENDER_EMAIL
         msg['To'] = RECIPIENT_EMAIL
-        msg['Reply-To'] = user_email # Set Reply-To to the user's email
 
+       
         email_body_content = f"""
 Service Type: {service_type.capitalize()}
-From Name: {user_name if user_name else 'N/A'}
 From Email: {user_email}
 Subject: {subject}
 
@@ -90,58 +87,46 @@ Message:
 """
         msg.set_content(email_body_content)
 
-        server = None # Initialize server to None
         try:
-            if SMTP_PORT == 465:
-                # Use SMTP_SSL for port 465 (often for implicit SSL)
-                server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=10)
-            else:
-                # Use SMTP + starttls() for other ports like 587 (explicit TLS)
-                server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=10)
-                server.starttls() # Secure the connection
+            
+            with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+                server.login(SENDER_EMAIL, SENDER_PASSWORD)
+                server.send_message(msg)
 
-            server.login(SENDER_EMAIL, SENDER_PASSWORD)
-            server.send_message(msg)
+            print("\n--- Email Sent Successfully ---")
+            print(f"Inquiry for {service_type} from {user_email} sent to {RECIPIENT_EMAIL}")
+            print("Email Sent!!\n")
 
+            # Redirect to a success page or the homepage
             flash('Your inquiry has been sent successfully!', 'success')
             return redirect(url_for('index'))
 
-        except smtplib.SMTPAuthenticationError as e:
-            print(f"ERROR: SMTP Authentication Failed. Check SENDER_EMAIL and SENDER_PASSWORD (App Password?). Error: {e}")
-            flash('Authentication error: Could not log in to email server. Please check credentials.', 'error')
-        except smtplib.SMTPServerDisconnected as e:
-            print(f"ERROR: SMTP Server Disconnected unexpectedly. Check server address, port, or SSL/TLS setup. Error: {e}")
-            flash('Connection error: Email server disconnected. Please try again.', 'error')
-        except smtplib.SMTPConnectError as e:
-            print(f"ERROR: SMTP Connection Error. Could not connect to the server. Check SMTP_SERVER and SMTP_PORT. Error: {e}")
-            flash('Connection error: Could not reach email server. Please try again.', 'error')
-        except smtplib.SMTPException as e:
-            print(f"ERROR: General SMTP error. Error: {e}")
-            flash('An email sending error occurred. Please try again.', 'error')
         except Exception as e:
-            print(f"ERROR: An unexpected error occurred while sending email: {e}")
-            flash('An unexpected error occurred. Please try again.', 'error')
-        finally:
-            if server: # Ensure server object exists before trying to quit
-                try:
-                    server.quit()
-                except Exception as e:
-                    print(f"Error quitting SMTP server: {e}") # Log only, don't re-raise
+            # Log the error and perhaps redirect to an error page
+            print(f"\n--- Error Sending Email ---")
+            print(f"Could not send email for {service_type} inquiry.")
+            print(f"Error: {e}")
+            print("Email failed to send.\n")
 
-        # If we reach here, an error occurred during POST request, redirect back
-        return redirect(url_for('index'))
+            flash('There was an error sending your inquiry. Please try again.', 'error')
+            # For now, redirect home even on error
+            return redirect(url_for('index'))
 
-    # If it's a GET request, render the contact form
+
+    
+ 
+    valid_services = ['accounting', 'legal']
+    if service_type.lower() not in valid_services:
+        
+        return redirect(url_for('index')) 
+
+   
     display_service_type = service_type.capitalize()
+
     return render_template('contact.html', service_type=display_service_type)
 
 
+
 if __name__ == '__main__':
-    # When deploying to Cloud Run, the 'PORT' environment variable is automatically provided.
-    # For local development, it defaults to 8080.
-    port = int(os.environ.get('PORT', 8080))
-    # In production, debug=False is crucial for security and performance.
-    # On Cloud Run, 'host' is not typically needed; it listens on the assigned port.
-    app.run(debug=False, port=port)
-# Note: In production, ensure to set the environment variables securely.
-# This includes using Cloud Secret Manager for sensitive data like passwords.
+    port = int(os.environ.get('PORT', 8080)) 
+    app.run(debug=True, host='0.0.0.0', port=port)

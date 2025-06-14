@@ -9,13 +9,12 @@
 <body>
 
     <header class="page-header">
-         <img src="{{ url_for('static', filename='logo_placeholder.png') }}" alt="ScriptJa Logo" class="logo-small">
         <h1>Inquire About Our {{ service_type }} Services</h1>
         <p><a href="{{ url_for('index') }}">Back to Home</a></p>
     </header>
 
     <main class="contact-form-container">
-        <form action="{{ url_for('contact', service_type=service_type.lower()) }}" method="POST">
+        <form action="{{ url_for('contact', service_type=service_type_url) }}" method="POST">
             <div class="form-group">
                 <label for="email">Your Email:</label>
                 <input type="email" id="email" name="email" required>
@@ -36,7 +35,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2023 ScriptJa. All rights reserved.</p>
+        <p>&copy; 2025 Script Technologies Jamaica. All rights reserved.</p>
     </footer>
 
 </body>
