@@ -59,23 +59,47 @@ def contact(service_type):
         service_type (str): The type of service the user is inquiring about
                             (e.g., 'accounting', 'legal').
     """
+    # Validate service_type from URL path for GET requests as well
+    valid_services = ['accounting', 'legal']
+    if service_type.lower() not in valid_services:
+        flash('Invalid service type specified.', 'error') # Optional: give feedback
+        return redirect(url_for('index'))
+
+    display_service_type = service_type.capitalize() # For rendering template
+
     if request.method == 'POST':
         # --- Process the submitted form data ---
-
-
         user_email = request.form.get('email')
         subject = request.form.get('subject')
-        message_body = request.form.get('message') # Renamed to avoid conflict with EmailMessage
+        message_body = request.form.get('message')
+
+        # --- NEW: Basic Form Data Validation ---
+        if not user_email or not subject or not message_body:
+            flash('All fields (Email, Subject, Message) are required. Please fill out the form completely.', 'error')
+            # Pass back the current service_type so the form can re-render correctly
+            return render_template('contact.html',
+                                   service_type=display_service_type,
+                                   user_email=user_email if user_email else '',
+                                   subject=subject if subject else '',
+                                   message_body=message_body if message_body else '')
+
+        # --- NEW: Check Email Configuration before trying to send ---
+        if not all([SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL, SMTP_SERVER, SMTP_PORT]):
+            flash('Email sending is currently unavailable. Please try again later or contact us directly.', 'error')
+            print("ERROR: Email configuration environment variables are not fully set up.")
+            # Pass back the current service_type so the form can re-render correctly
+            return render_template('contact.html',
+                                   service_type=display_service_type,
+                                   user_email=user_email,
+                                   subject=subject,
+                                   message_body=message_body)
+
 
         # --- Email Sending Logic ---
-        # Create the email content
         msg = EmailMessage()
         msg['Subject'] = f"ScriptJa Service Inquiry: {service_type.capitalize()} - {subject}"
-        # It's better to set the 'From' field to your sending email, and include
-        # the user's email in the body or as a Reply-To header.
         msg['From'] = SENDER_EMAIL
         msg['To'] = RECIPIENT_EMAIL
-
 
         email_body_content = f"""
 Service Type: {service_type.capitalize()}
@@ -88,39 +112,52 @@ Message:
         msg.set_content(email_body_content)
 
         try:
-            # --- START OF CHANGE ---
-            # Use smtplib.SMTP for port 587 and then call starttls()
-            with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server: # Line 66 (changed)
-                server.starttls() # Line 67 (new)
+            with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+                server.starttls()
                 server.login(SENDER_EMAIL, SENDER_PASSWORD)
                 server.send_message(msg)
-            # --- END OF CHANGE ---
 
             print("\n--- Email Sent Successfully ---")
             print(f"Inquiry for {service_type} from {user_email} sent to {RECIPIENT_EMAIL}")
             print("Email Sent!!\n")
 
-            # Redirect to a success page or the homepage
             flash('Your inquiry has been sent successfully!', 'success')
             return redirect(url_for('index'))
 
+        except smtplib.SMTPAuthenticationError as auth_err: # Catch specific auth error
+            print(f"\n--- SMTP Authentication Error ---")
+            print(f"Error: {auth_err}")
+            # Log the full traceback for debugging in Cloud Run logs
+            import traceback
+            traceback.print_exc()
+            flash('Failed to send inquiry: Authentication failed. Please check sender email/password.', 'error')
+            # Re-render form with user data
+            return render_template('contact.html',
+                                   service_type=display_service_type,
+                                   user_email=user_email,
+                                   subject=subject,
+                                   message_body=message_body)
+
         except Exception as e:
-            # Log the error and perhaps redirect to an error page
-            print(f"\n--- Error Sending Email ---")
+            print(f"\n--- General Error Sending Email ---")
             print(f"Could not send email for {service_type} inquiry.")
             print(f"Error: {e}")
-            print("Email failed to send.\n")
-
+            # Log the full traceback for debugging in Cloud Run logs
+            import traceback
+            traceback.print_exc()
             flash('There was an error sending your inquiry. Please try again.', 'error')
-            # For now, redirect home even on error
-            return redirect(url_for('index'))
+            # Re-render form with user data
+            return render_template('contact.html',
+                                   service_type=display_service_type,
+                                   user_email=user_email,
+                                   subject=subject,
+                                   message_body=message_body)
 
 
-
-    valid_services = ['accounting', 'legal']
-    if service_type.lower() not in valid_services:
-
-        return redirect(url_for('index'))
+    # For GET requests or if POST conditions were not met (e.g. initial page load)
+    return render_template('contact.html', service_type=display_service_type)
 
 
-    display_service_type = service_type.capitalize()
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 8080))
+    app.run(debug=True, host='0.0.0.0', port=port)
