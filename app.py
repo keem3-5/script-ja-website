@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, get_flashed_messages
 import smtplib
 from email.message import EmailMessage
-import os 
+import os
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -25,7 +25,7 @@ if not all([SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL, SMTP_SERVER, SMTP_PO
     print("Email sending will likely fail until SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL, SMTP_SERVER, SMTP_PORT are set.")
     # In a production app, you might want to raise an error or log more critically
     # if app.env == 'production': # Check Flask environment if configured
-    #    raise ValueError("Email environment variables must be set in production!")
+    #   raise ValueError("Email environment variables must be set in production!")
 # --- End Basic Check ---
 
 
@@ -62,7 +62,7 @@ def contact(service_type):
     if request.method == 'POST':
         # --- Process the submitted form data ---
 
-        
+
         user_email = request.form.get('email')
         subject = request.form.get('subject')
         message_body = request.form.get('message') # Renamed to avoid conflict with EmailMessage
@@ -76,7 +76,7 @@ def contact(service_type):
         msg['From'] = SENDER_EMAIL
         msg['To'] = RECIPIENT_EMAIL
 
-       
+
         email_body_content = f"""
 Service Type: {service_type.capitalize()}
 From Email: {user_email}
@@ -88,10 +88,13 @@ Message:
         msg.set_content(email_body_content)
 
         try:
-            
-            with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+            # --- START OF CHANGE ---
+            # Use smtplib.SMTP for port 587 and then call starttls()
+            with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server: # Line 66 (changed)
+                server.starttls() # Line 67 (new)
                 server.login(SENDER_EMAIL, SENDER_PASSWORD)
                 server.send_message(msg)
+            # --- END OF CHANGE ---
 
             print("\n--- Email Sent Successfully ---")
             print(f"Inquiry for {service_type} from {user_email} sent to {RECIPIENT_EMAIL}")
@@ -113,20 +116,11 @@ Message:
             return redirect(url_for('index'))
 
 
-    
- 
+
     valid_services = ['accounting', 'legal']
     if service_type.lower() not in valid_services:
-        
-        return redirect(url_for('index')) 
 
-   
+        return redirect(url_for('index'))
+
+
     display_service_type = service_type.capitalize()
-
-    return render_template('contact.html', service_type=display_service_type)
-
-
-
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8080)) 
-    app.run(debug=True, host='0.0.0.0', port=port)
