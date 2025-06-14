@@ -8,26 +8,43 @@
 </head>
 <body>
 
+    {# --- Flashed Messages Area --- #}
+    {# This block is useful for displaying success/error messages from Flask #}
+    <ul class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </ul>
+    {# --- End Flashed Messages Area --- #}
+
     <header class="page-header">
         <h1>Inquire About Our {{ service_type }} Services</h1>
         <p><a href="{{ url_for('index') }}">Back to Home</a></p>
     </header>
 
     <main class="contact-form-container">
-        <form action="{{ url_for('contact', service_type=service_type_url) }}" method="POST">
+        {# THE FIX IS HERE: Changed service_type_url to service_type #}
+        <form action="{{ url_for('contact', service_type=service_type) }}" method="POST">
             <div class="form-group">
                 <label for="email">Your Email:</label>
-                <input type="email" id="email" name="email" required>
+                {# Added 'value' attribute to retain email on re-render after error #}
+                <input type="email" id="email" name="email" value="{{ user_email if user_email else '' }}" required>
             </div>
 
             <div class="form-group">
                 <label for="subject">Subject:</label>
+                {# Added 'value' attribute to retain subject on re-render after error #}
                 <input type="text" id="subject" name="subject" value="Inquiry about {{ service_type }} Services" required>
             </div>
 
             <div class="form-group">
                 <label for="message">Your Message:</label>
-                <textarea id="message" name="message" rows="8" required></textarea>
+                {# Added content between textarea tags to retain message on re-render after error #}
+                <textarea id="message" name="message" rows="8" required>{{ message_body if message_body else '' }}</textarea>
             </div>
 
             <button type="submit" class="submit-button">Send Inquiry</button>
