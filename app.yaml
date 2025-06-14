@@ -34,3 +34,9 @@ handlers:
 # This is more common in the App Engine Flexible environment.
 # For standard, 'script: auto' usually suffices.
 # entrypoint: gunicorn -b :$PORT main:app # Example for Gunicorn if your app is 'app' in 'main.py'
+steps:
+# ... your build steps ...
+logsBucket: gs://your-project-build-logs-bucket
+# Optional: You can specify a logs bucket for build logs.
+# This is useful for debugging and monitoring your application's build process.
+
