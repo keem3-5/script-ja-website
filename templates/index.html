@@ -41,7 +41,7 @@
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Script Ja Logo">
             <h1>Script Technologies Jamaica</h1>
             <p class="slogan">Build Your World</p> {# Your new slogan #}
-            <p class="tagline">Empowering Your Business with Reliable Solutions</p> {# Your new tagline #}
+            <p class="tagline">Business Solutions: Accounting & Legal Document Preparation</p> {# Retained original tagline #}
         </div>
 
         {# Placeholder for background image - uncomment and update filename when ready #}
@@ -86,6 +86,59 @@
                 </p>
                 <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="legal document preparation services">Inquire about Legal Document Preparation</a>
             </div>
+
+            <div class="service-card">
+                <h3>Business Registration & Compliance</h3>
+                <p>
+                    Navigating the complexities of starting a business in Jamaica?
+                    We assist with company registration, business name registration, tax compliance (TRN, GCT),
+                    and other regulatory requirements to ensure your business is legally sound from day one.
+                </p>
+                <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="business registration">Inquire about Business Registration</a>
+            </div>
+
+            {# --- UPDATED SERVICE CARD --- #}
+            <div class="service-card">
+                <h3>Software and Web Development</h3>
+                <p>
+                    Custom software solutions and responsive web applications tailored to your specific business needs,
+                    ensuring efficiency, scalability, and a strong online presence. We build robust and modern digital tools.
+                </p>
+                <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="software and web development">Inquire about Software & Web Development</a>
+            </div>
+
+            {# --- NEW SERVICE CARD 1 --- #}
+            <div class="service-card">
+                <h3>Business Process Automation</h3>
+                <p>
+                    Streamline your operations by automating repetitive tasks, improving efficiency, reducing errors,
+                    and freeing up your team for more strategic work. Transform manual workflows into seamless, automated processes.
+                </p>
+                <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="business process automation">Inquire about Business Process Automation</a>
+            </div>
+
+            {# --- NEW SERVICE CARD 2 --- #}
+            <div class="service-card">
+                <h3>AI Integration</h3>
+                <p>
+                    Leverage the power of Artificial Intelligence to enhance decision-making, automate complex processes,
+                    provide advanced analytics, and create intelligent solutions for your business. Unlock new levels of efficiency and insight.
+                </p>
+                <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="ai integration">Inquire about AI Integration</a>
+            </div>
+
+            {# --- Add more service cards here using the same structure if needed --- #}
+            {#
+            <div class="service-card">
+                <h3>Your New Service Title</h3>
+                <p>
+                    A brief but compelling description of your new service, outlining its benefits to clients.
+                    Keep it concise and clear.
+                </p>
+                <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="your new service">Inquire about Your New Service</a>
+            </div>
+            #}
+
         </div>
     </section>
 
@@ -130,7 +183,6 @@
                     <label for="email">Your Email:</label>
                     <input type="email" id="email" name="email" required>
                 </div>
-                {# REMOVED SUBJECT FIELD #}
                 <div class="form-group">
                     <label for="message">Message:</label>
                     <textarea id="message" name="message" rows="6" required></textarea>
@@ -156,7 +208,7 @@
             });
         });
 
-        // --- NEW: JavaScript for auto-hiding flash messages ---
+        // --- JavaScript for auto-hiding flash messages ---
         document.addEventListener('DOMContentLoaded', function() {
             const flashMessages = document.querySelectorAll('.flash-messages li');
             flashMessages.forEach(message => {
@@ -166,8 +218,6 @@
                     message.addEventListener('transitionend', () => message.remove());
                 }, 5000); // Disappear after 5 seconds
             });
-
-            // Removed original JavaScript for pre-filling subject as the field is gone
         });
     </script>
 </body>
