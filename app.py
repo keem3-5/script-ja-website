@@ -47,6 +47,13 @@ def index():
     """
     return render_template('index.html')
 
+
+# --- NEW: Placeholder Blog Route ---
+@app.route('/blog')
+def blog():
+    return render_template('blog.html')
+# --- END NEW ---
+
 # Route for handling contact form submissions
 
 @app.route('/contact/<service_type>', methods=['GET', 'POST'])

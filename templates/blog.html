@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script Technologies Jamaica - Blog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-color: #000; /* Dark background */
+            color: #fff; /* White text */
+            font-family: sans-serif;
+            padding-top: 70px; /* Adjust for fixed navbar */
+            text-align: center;
+        }
+        h1 {
+            color: #00BFFF; /* Light blue heading */
+            margin-top: 50px;
+        }
+        p {
+            font-size: 1.1em;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            border: 2px solid #00BFFF;
+            color: #00BFFF;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .back-link:hover {
+            background-color: #00BFFF;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Our Blog</h1>
+    <p>We're currently preparing exciting content for our blog. Please check back soon for updates!</p>
+    <a href="{{ url_for('index') }}" class="back-link">Go back to Home</a>
+</body>
+</html>
