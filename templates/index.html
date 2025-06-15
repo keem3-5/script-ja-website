@@ -25,9 +25,19 @@
     </ul>
     {# --- End Flashed Messages Area --- #}
 
-    <header class="hero-section">
+    <nav class="navbar">
+        <ul class="navbar-list">
+            <li class="navbar-item"><a href="#hero-section">Home</a></li>
+            <li class="navbar-item"><a href="#about-section">About Us</a></li>
+            <li class="navbar-item"><a href="#services-section">Services</a></li>
+            <li class="navbar-item"><a href="#portfolio-section">Portfolio</a></li>
+            <li class="navbar-item"><a href="{{ url_for('blog') }}">Blog</a></li>
+            <li class="navbar-item"><a href="#contact-form-section">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero-section" id="hero-section">
         <div class="logo-area">
-            {# Corrected path to logo in 'static/images' folder #}
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Script Ja Logo">
             <h1>Script Technologies Jamaica</h1>
             <p>Business Solutions: Accounting & Legal Document Preparation</p>
@@ -39,6 +49,21 @@
         </div>
     </header>
 
+    <section id="about-section" class="about-section">
+        <h2>About Script Technologies Jamaica</h2>
+        <p>
+            Script Technologies Jamaica is dedicated to empowering businesses and individuals in Jamaica with streamlined,
+            efficient, and reliable solutions. We specialize in comprehensive accounting services and meticulous legal
+            document preparation, designed to simplify complex processes and help you focus on growth.
+            Our commitment is to professional excellence, confidentiality, and client satisfaction.
+            We blend expertise with personalized service to meet your unique needs and contribute to your success.
+        </p>
+        <p>
+            Whether you're a small business seeking robust financial management or an individual navigating legal paperwork,
+            Script Technologies Jamaica is your trusted partner.
+        </p>
+    </section>
+
     <section id="services-section" class="services-section">
         <h2>Our Services</h2>
         <div class="services-grid">
@@ -49,27 +74,91 @@
                     financial statement preparation, tax planning and filing, payroll processing,
                     and business advisory to help manage your finances effectively.
                 </p>
-                <a href="{{ url_for('contact', service_type='accounting') }}" class="contact-button">Inquire about Accounting</a>
+                <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="accounting">Inquire about Accounting</a>
             </div>
 
             <div class="service-card">
                 <h3>Legal Document Preparation Services</h3>
                 <p>
-                    Our professional document preparation services simplify your personal and business needs. 
-                    We expertly handle uncontested divorce paperwork, will creation, contract drafting, and business policies. 
-                    We also provide data protection guidance and craft standout resumes and cover letters for job seekers. 
+                    Our professional document preparation services simplify your personal and business needs.
+                    We expertly handle uncontested divorce paperwork, will creation, contract drafting, and business policies.
+                    We also provide data protection guidance and craft standout resumes and cover letters for job seekers.
                     Let us manage your documentation so you can focus on what truly matters.
                 </p>
-                {# --- CHANGE MADE HERE --- #}
-                <a href="{{ url_for('contact', service_type='legal document preparation services') }}" class="contact-button">Inquire about Legal Document Preparation</a>
-                {# --- END CHANGE --- #}
+                <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="legal document preparation services">Inquire about Legal Document Preparation</a>
             </div>
         </div>
+    </section>
+
+    {# --- UPDATED: Portfolio Section with Grid and Items --- #}
+    <section id="portfolio-section" class="portfolio-section">
+        <h2>Our Work & Case Studies</h2>
+        <p class="portfolio-intro-text">
+            Explore a selection of our successful projects and see how Script Technologies Jamaica has helped
+            our clients achieve their business and personal objectives.
+        </p>
+
+        <div class="portfolio-grid">
+            {# Portfolio Item 1 #}
+            <div class="portfolio-item">
+                <img src="{{ url_for('static', filename='images/placeholder-project-1.jpg') }}" alt="Client Project One">
+                <div class="portfolio-content">
+                    <h3>Efficient Bookkeeping for Startup</h3>
+                    <p>Implemented a cloud-based bookkeeping system for a new tech startup, resulting in 30% reduction in monthly accounting time and improved financial reporting accuracy.</p>
+                    <a href="#contact-form-section" class="portfolio-link">Discuss Your Project</a>
+                </div>
+            </div>
+
+            {# Portfolio Item 2 #}
+            <div class="portfolio-item">
+                <img src="{{ url_for('static', filename='images/placeholder-project-2.jpg') }}" alt="Client Project Two">
+                <div class="portfolio-content">
+                    <h3>Comprehensive Estate Planning Document Prep</h3>
+                    <p>Assisted a family in preparing a comprehensive set of legal documents including wills and power of attorney, ensuring their assets and wishes were securely documented.</p>
+                    <a href="#contact-form-section" class="portfolio-link">Discuss Your Project</a>
+                </div>
+            </div>
+
+            {# You can add more portfolio-item divs here by copying the above structure #}
+            {# Example:
+            <div class="portfolio-item">
+                <img src="{{ url_for('static', filename='images/your-image-name.jpg') }}" alt="Your Project Title">
+                <div class="portfolio-content">
+                    <h3>Your Project Title Here</h3>
+                    <p>Detailed description of this project, what problem it solved, and the value delivered.</p>
+                    <a href="#contact-form-section" class="portfolio-link">Learn More</a>
+                </div>
+            </div>
+            #}
+
+        </div>
+
+        <p class="portfolio-cta">
+            Want to see more detailed case studies or discuss a specific need? <a href="#contact-form-section">Contact us today!</a>
+        </p>
+    </section>
+    {# --- END UPDATED: Portfolio Section --- #}
+
+    <section id="contact-form-section" class="contact-form-section">
+        <h2>Send Us a Query</h2>
+        <p>Please use the form below to send us your inquiry.</p>
     </section>
 
     <footer>
         <p>&copy; 2025 Script Technologies Jamaica. All rights reserved.</p>
     </footer>
 
+    {# Basic JavaScript for smooth scrolling (remains the same) #}
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 </html>

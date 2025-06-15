@@ -14,70 +14,155 @@ body {
     font-family: sans-serif; /* Modern, clean font */
     margin: 0;
     padding: 0;
-    background-color: var(--color-black);
-    color: var(--color-white); /* Changed body text to white for better contrast on black */
+    background-color: var(--color-black); /* Default body background */
+    color: var(--color-white); /* Default body text color */
     line-height: 1.6;
 }
 
+/* Base styles for all headings - color adjusted by section */
 h1, h2, h3 {
-    color: var(--color-light-blue); /* Headings are light blue */
     text-align: center;
     margin-bottom: 20px;
 }
 
+/* Base styles for all links - color adjusted by section */
 a {
-    color: var(--color-light-blue);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-a:hover {
-    color: var(--color-white); /* Links turn white on hover */
+/* --- Flashed Messages --- */
+.flash-messages {
+    list-style: none;
+    padding: 10px 20px;
+    margin: 0;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 1000;
 }
+
+.flash-messages li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: var(--color-black);
+}
+
+.flash-messages li.success {
+    background-color: #4CAF50;
+    color: var(--color-white);
+}
+
+.flash-messages li.error {
+    background-color: #f44336;
+    color: var(--color-white);
+}
+
+/* --- Navigation Bar --- */
+.navbar {
+    background-color: var(--color-dark-grey);
+    padding: 15px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.navbar-item a {
+    color: var(--color-white); /* Nav links are white */
+    font-size: 1.1em;
+    padding: 5px 0;
+    position: relative;
+}
+
+.navbar-item a:hover {
+    color: var(--color-light-blue); /* Nav links turn light blue on hover */
+}
+
+.navbar-item a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 5px;
+    right: 0;
+    background: var(--color-light-blue);
+    transition: width 0.3s ease;
+}
+
+.navbar-item a:hover::after {
+    width: 100%;
+    left: 0;
+    background: var(--color-light-blue);
+}
+
+body {
+    padding-top: 70px; /* Adjust based on navbar height + a little extra */
+}
+
 
 /* --- Header (Hero Section) --- */
 .hero-section {
-    height: 100vh; /* Make the header fill the viewport height */
+    height: calc(100vh - 70px);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* Moved logo to the top */
     align-items: center;
     text-align: center;
-    position: relative; /* Needed for scroll button absolute positioning */
+    position: relative;
     padding: 20px;
+    padding-top: 100px; /* Added padding to bring logo down from very top */
+    background-color: var(--color-black); /* Black background */
 }
 
 .logo-area img {
-    max-width: 200px; /* Adjust size as needed */
+    max-width: 200px;
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Space below logo */
 }
 
 .logo-area h1 {
     font-size: 3em;
     margin: 0 0 10px 0;
-    color: var(--color-light-blue); /* Logo area heading is light blue */
+    color: var(--color-light-blue); /* Light blue heading */
 }
 
 .logo-area p {
     font-size: 1.2em;
     margin-bottom: 30px;
-    color: var(--color-white); /* Logo area paragraph is white */
+    color: var(--color-white); /* White paragraph text */
 }
 
 .scroll-down-container {
     position: absolute;
-    bottom: 40px; /* Position it near the bottom */
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10; /* Ensure it's above other content */
+    z-index: 10;
 }
 
 .scroll-button {
     display: inline-block;
     padding: 12px 25px;
-    border: 2px solid var(--color-light-blue); /* Border is light blue */
-    color: var(--color-light-blue); /* Text color is light blue */
+    border: 2px solid var(--color-light-blue);
+    color: var(--color-light-blue);
     background-color: transparent;
     border-radius: 5px;
     font-size: 1.1em;
@@ -85,22 +170,52 @@ a:hover {
 }
 
 .scroll-button:hover {
-    background-color: var(--color-light-blue); /* Background becomes light blue on hover */
-    color: var(--color-black); /* Text color becomes black on hover */
+    background-color: var(--color-light-blue);
+    color: var(--color-black);
 }
 
-/* --- Services Section --- */
+/* --- About Section (WHITE BACKGROUND) --- */
+.about-section {
+    padding: 60px 20px;
+    background-color: var(--color-white); /* White background */
+    color: var(--color-black); /* Black text */
+    text-align: center;
+}
+
+.about-section h2 {
+    color: var(--color-black); /* Black heading */
+    margin-bottom: 30px;
+}
+
+.about-section p {
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+    font-size: 1.1em;
+    color: var(--color-black); /* Ensure paragraphs are black */
+}
+
+.about-section a {
+    color: var(--color-black); /* Links are black */
+}
+
+.about-section a:hover {
+    color: var(--color-light-blue); /* Links turn light blue on hover */
+}
+
+
+/* --- Services Section (BLACK BACKGROUND) --- */
 .services-section {
     padding: 60px 20px;
-    background-color: var(--color-black); /* Explicitly black */
-    min-height: 100vh; /* Ensure it takes at least full height after scrolling */
+    background-color: var(--color-black); /* Black background */
+    color: var(--color-white); /* White text */
+    min-height: 100vh;
 }
 
 .services-grid {
     display: flex;
-    flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
-    gap: 40px; /* Space between cards */
-    justify-content: center; /* Center cards horizontally */
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
 }
 
 .service-card {
@@ -109,12 +224,12 @@ a:hover {
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    max-width: 400px; /* Max width for cards */
+    max-width: 400px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Push button to bottom */
-    flex: 1 1 300px; /* Flex properties for responsiveness */
+    justify-content: space-between;
+    flex: 1 1 300px;
 }
 
 .service-card h3 {
@@ -125,45 +240,159 @@ a:hover {
 .service-card p {
     color: var(--color-white); /* Paragraph text in white */
     margin-bottom: 20px;
-    flex-grow: 1; /* Allow paragraph to take up space */
+    flex-grow: 1;
 }
 
 .contact-button {
     display: inline-block;
     padding: 10px 20px;
-    border: 2px solid var(--color-light-blue); /* Border is light blue */
-    color: var(--color-light-blue); /* Text color is light blue */
+    border: 2px solid var(--color-light-blue);
+    color: var(--color-light-blue);
     background-color: transparent;
     border-radius: 5px;
     font-size: 1em;
     transition: background-color 0.3s ease, color 0.3s ease;
-    margin-top: 15px; /* Space above the button */
+    margin-top: 15px;
 }
 
 .contact-button:hover {
-    background-color: var(--color-light-blue); /* Background becomes light blue on hover */
-    color: var(--color-black); /* Text color becomes black on hover */
+    background-color: var(--color-light-blue);
+    color: var(--color-black);
 }
 
-
-/* --- Contact Form Page --- */
-.page-header {
+/* --- Portfolio Section (WHITE BACKGROUND) --- */
+.portfolio-section {
+    padding: 60px 20px;
+    background-color: var(--color-white); /* White background */
+    color: var(--color-black); /* Black text for general section content */
     text-align: center;
-    padding: 40px 20px;
-    background-color: var(--color-black);
 }
 
-.logo-small {
-    max-width: 100px; /* Smaller logo for inner pages */
-    height: auto;
-    margin-bottom: 15px;
+.portfolio-section h2 {
+    color: var(--color-black); /* Black heading */
+    margin-bottom: 30px;
 }
 
+.portfolio-section .portfolio-intro-text {
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    font-size: 1.1em;
+    color: var(--color-black); /* Ensure intro text is black */
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto 50px auto;
+}
+
+.portfolio-item {
+    background-color: var(--color-black); /* Black background for individual items (cards) */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.portfolio-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.portfolio-content {
+    padding: 25px;
+    text-align: left;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.portfolio-content h3 {
+    color: var(--color-light-blue); /* Light blue heading on black card */
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.4em;
+    text-align: left;
+}
+
+.portfolio-content p {
+    color: var(--color-white); /* White paragraph on black card */
+    font-size: 0.95em;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.portfolio-link {
+    display: inline-block;
+    padding: 8px 15px;
+    border: 2px solid var(--color-light-blue);
+    color: var(--color-light-blue); /* Light blue link on black card */
+    background-color: transparent;
+    border-radius: 5px;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    align-self: flex-start;
+}
+
+.portfolio-link:hover {
+    background-color: var(--color-light-blue);
+    color: var(--color-black);
+}
+
+.portfolio-cta {
+    font-size: 1.1em;
+    margin-top: 40px;
+    color: var(--color-black); /* CTA text on white background is black */
+}
+
+.portfolio-cta a {
+    font-weight: bold;
+    text-decoration: underline;
+    color: var(--color-black); /* CTA link on white background is black */
+}
+
+.portfolio-cta a:hover {
+    color: var(--color-light-blue); /* CTA link on white background hovers to light blue */
+}
+
+
+/* --- Contact Form Section (BLACK BACKGROUND) --- */
+.contact-form-section {
+    padding: 60px 20px;
+    background-color: var(--color-black); /* Black background */
+    color: var(--color-white); /* White text */
+    min-height: 80vh;
+}
+
+.contact-form-section h2 {
+    color: var(--color-light-blue); /* Heading is light blue */
+}
+
+.contact-form-section p {
+    color: var(--color-white); /* Paragraph is white */
+}
+
+
+/* General contact form container styling */
 .contact-form-container {
     max-width: 600px;
     margin: 40px auto;
     padding: 30px;
-    background-color: var(--color-dark-grey); /* Background for the form area */
+    background-color: var(--color-dark-grey); /* Dark grey background for the form area */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     color: var(--color-white);
@@ -183,9 +412,9 @@ a:hover {
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group textarea {
-    width: calc(100% - 20px); /* Adjust width considering padding */
+    width: calc(100% - 20px);
     padding: 10px;
-    border: 1px solid var(--color-light-blue); /* Border is light blue */
+    border: 1px solid var(--color-light-blue);
     border-radius: 4px;
     background-color: var(--color-black); /* Black input background */
     color: var(--color-white); /* White text input */
@@ -196,20 +425,20 @@ a:hover {
 .form-group input[type="email"]:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--color-white); /* Border becomes white on focus */
-    box-shadow: 0 0 5px rgba(0, 191, 255, 0.5); /* Light blue glow on focus (RGB for #00BFFF) */
+    border-color: var(--color-white);
+    box-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
 }
 
 textarea {
-    resize: vertical; /* Allow vertical resizing */
+    resize: vertical;
 }
 
 .submit-button {
     display: block;
     width: 100%;
     padding: 12px;
-    background-color: var(--color-light-blue); /* Background is light blue */
-    color: var(--color-black); /* Text is black */
+    background-color: var(--color-light-blue);
+    color: var(--color-black);
     border: none;
     border-radius: 5px;
     font-size: 1.2em;
@@ -218,7 +447,7 @@ textarea {
 }
 
 .submit-button:hover {
-    background-color: var(--color-darker-blue); /* Slightly darker blue on hover */
+    background-color: var(--color-darker-blue);
 }
 
 /* --- Footer --- */
@@ -233,6 +462,20 @@ footer {
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
+    .navbar-list {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .navbar {
+        padding: 10px 20px;
+    }
+    body {
+        padding-top: 150px; /* Adjust for stacked nav on small screens */
+    }
+    .hero-section {
+        height: calc(100vh - 150px); /* Adjust for new body padding */
+        padding-top: 50px; /* Less padding from top on smaller screens */
+    }
     .hero-section h1 {
         font-size: 2em;
     }
@@ -242,13 +485,18 @@ footer {
     }
 
     .services-grid {
-        flex-direction: column; /* Stack cards vertically */
+        flex-direction: column;
         align-items: center;
     }
 
     .service-card {
-        width: 90%; /* Cards take more width on small screens */
-        max-width: none; /* Remove max-width constraint */
+        width: 90%;
+        max-width: none;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+        padding: 0 10px;
     }
 
     .contact-form-container {
@@ -259,6 +507,6 @@ footer {
     .form-group input[type="text"],
     .form-group input[type="email"],
     .form-group textarea {
-        width: calc(100% - 20px); /* Ensure padding is accounted for */
+        width: calc(100% - 20px);
     }
 }
