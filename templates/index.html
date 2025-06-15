@@ -90,7 +90,6 @@
         </div>
     </section>
 
-    {# --- UPDATED: Portfolio Section - Placeholder items removed --- #}
     <section id="portfolio-section" class="portfolio-section">
         <h2>Our Work & Case Studies</h2>
         <p class="portfolio-intro-text">
@@ -117,12 +116,35 @@
             Want to see more detailed case studies or discuss a specific need? <a href="#contact-form-section">Contact us today!</a>
         </p>
     </section>
-    {# --- END UPDATED: Portfolio Section --- #}
 
+    {# --- UPDATED: Contact Form Section with actual form --- #}
     <section id="contact-form-section" class="contact-form-section">
         <h2>Send Us a Query</h2>
         <p>Please use the form below to send us your inquiry.</p>
+
+        <div class="contact-form-container">
+            <form action="{{ url_for('contact') }}" method="POST">
+                <div class="form-group">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="6" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">Send Message</button>
+            </form>
+        </div>
     </section>
+    {# --- END UPDATED: Contact Form Section --- #}
 
     <footer>
         <p>&copy; 2025 Script Technologies Jamaica. All rights reserved.</p>
@@ -136,6 +158,20 @@
 
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
+                });
+            });
+        });
+
+        // Optional: Pre-fill subject based on service inquiry (from previous buttons)
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactButtons = document.querySelectorAll('.service-contact-button');
+            contactButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const serviceType = this.getAttribute('data-service-type');
+                    const subjectInput = document.getElementById('subject');
+                    if (subjectInput && serviceType) {
+                        subjectInput.value = `Inquiry about ${serviceType}`;
+                    }
                 });
             });
         });
