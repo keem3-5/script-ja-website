@@ -43,32 +43,32 @@ def index():
 def blog():
     return render_template('blog.html')
 
-# --- UPDATED: Route for handling contact form submissions from index.html ---
-@app.route('/contact', methods=['GET', 'POST']) # Removed <service_type> from URL path
+# --- UPDATED: Contact Form Route (Removed Subject Line Handling) ---
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
         # --- Process the submitted form data ---
-        name = request.form.get('name') # Added 'name' field
+        name = request.form.get('name')
         user_email = request.form.get('email')
-        subject = request.form.get('subject')
+        # subject = request.form.get('subject') # REMOVED SUBJECT RETRIEVAL
         message_body = request.form.get('message')
 
         # --- Basic Form Data Validation ---
-        if not name or not user_email or not subject or not message_body: # Added 'name' to validation
-            flash('All fields (Name, Email, Subject, Message) are required. Please fill out the form completely.', 'error')
-            # Redirect back to index.html and scroll to contact section
+        # Removed 'subject' from validation check
+        if not name or not user_email or not message_body:
+            flash('All fields (Name, Email, Message) are required. Please fill out the form completely.', 'error')
             return redirect(url_for('index', _external=True) + '#contact-form-section')
 
         # --- Check Email Configuration before trying to send ---
         if not all([SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL, SMTP_SERVER, SMTP_PORT]):
             flash('Email sending is currently unavailable. Please try again later or contact us directly.', 'error')
             print("ERROR: Email configuration environment variables are not fully set up.")
-            # Redirect back to index.html and scroll to contact section
             return redirect(url_for('index', _external=True) + '#contact-form-section')
 
         # --- Email Sending Logic ---
         msg = EmailMessage()
-        msg['Subject'] = f"New Website Inquiry: {subject} (from {name})" # Subject from form + name
+        # NEW SUBJECT: Default subject line as no subject field in form
+        msg['Subject'] = f"New Website Inquiry from {name}"
         msg['From'] = SENDER_EMAIL
         msg['To'] = RECIPIENT_EMAIL
 
@@ -77,7 +77,7 @@ New Contact Form Submission:
 
 Name: {name}
 From Email: {user_email}
-Subject: {subject}
+# Subject: (No subject provided by user) # Note: Subject is now automatically generated
 
 Message:
 {message_body}
@@ -86,40 +86,34 @@ Message:
 
         try:
             with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-                server.starttls() # Use starttls for port 587, or SMTP_SSL for port 465
+                server.starttls()
                 server.login(SENDER_EMAIL, SENDER_PASSWORD)
                 server.send_message(msg)
 
             print("\n--- Email Sent Successfully ---")
-            print(f"Inquiry from {user_email} (Subject: '{subject}') sent to {RECIPIENT_EMAIL}")
+            print(f"Inquiry from {user_email} (Name: '{name}') sent to {RECIPIENT_EMAIL}")
             print("Email Sent!!\n")
 
             flash('Your inquiry has been sent successfully! We will get back to you soon.', 'success')
-            # Redirect back to index.html and scroll to contact section
             return redirect(url_for('index', _external=True) + '#contact-form-section')
 
         except smtplib.SMTPAuthenticationError as auth_err:
             print(f"\n--- SMTP Authentication Error ---")
             print(f"Error: {auth_err}")
-            traceback.print_exc() # Print full traceback to logs
+            traceback.print_exc()
             flash('Failed to send inquiry: Authentication failed. Please check sender email/password.', 'error')
-            # Redirect back to index.html and scroll to contact section
             return redirect(url_for('index', _external=True) + '#contact-form-section')
 
         except Exception as e:
             print(f"\n--- General Error Sending Email ---")
             print(f"Could not send email for inquiry from {user_email}.")
             print(f"Error: {e}")
-            traceback.print_exc() # Print full traceback to logs
+            traceback.print_exc()
             print("Email failed to send.\n")
 
             flash('There was an error sending your inquiry. Please try again.', 'error')
-            # Redirect back to index.html and scroll to contact section
             return redirect(url_for('index', _external=True) + '#contact-form-section')
-
+    
     # If it's a GET request to /contact directly, redirect to homepage
     return redirect(url_for('index'))
 # --- END UPDATED Contact Route ---
-
-# Note: The if __name__ == '__main__': block is typically not needed for Cloud Run deployments
-# as Cloud Run handles running your app directly.

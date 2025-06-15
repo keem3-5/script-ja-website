@@ -1,78 +1,25 @@
-/* static/style.css */
-
-/* --- Variables --- */
-:root {
-    --color-black: #000;
-    --color-light-blue: #00BFFF; /* A vibrant light blue */
-    --color-white: #fff;
-    --color-dark-grey: #333;
-    --color-darker-blue: #0099CC; /* Slightly darker blue for hover effects */
+/* General Body and HTML */
+html {
+    scroll-behavior: smooth;
 }
 
-/* --- Global Styles --- */
 body {
-    font-family: sans-serif; /* Modern, clean font */
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--color-black); /* Default body background */
-    color: var(--color-white); /* Default body text color */
-    line-height: 1.6;
+    background-color: #000; /* Dark background */
+    color: #fff; /* White text */
 }
 
-/* Base styles for all headings - color adjusted by section */
-h1, h2, h3 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* Base styles for all links - color adjusted by section */
-a {
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-/* --- Flashed Messages --- */
-.flash-messages {
-    list-style: none;
-    padding: 10px 20px;
-    margin: 0;
-    text-align: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 1000;
-}
-
-.flash-messages li {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    font-weight: bold;
-    color: var(--color-black);
-}
-
-.flash-messages li.success {
-    background-color: #4CAF50;
-    color: var(--color-white);
-}
-
-.flash-messages li.error {
-    background-color: #f44336;
-    color: var(--color-white);
-}
-
-/* --- Navigation Bar --- */
+/* Navbar */
 .navbar {
-    background-color: var(--color-dark-grey);
-    padding: 15px 20px;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+    padding: 15px 0;
     position: fixed;
     width: 100%;
     top: 0;
-    left: 0;
-    z-index: 100;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .navbar-list {
@@ -81,321 +28,308 @@ a {
     padding: 0;
     display: flex;
     justify-content: center;
-    gap: 30px;
+    align-items: center; /* Center items vertically */
+}
+
+.navbar-item {
+    margin: 0 20px;
 }
 
 .navbar-item a {
-    color: var(--color-white); /* Nav links are white */
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
     font-size: 1.1em;
-    padding: 5px 0;
-    position: relative;
+    transition: color 0.3s ease;
 }
 
 .navbar-item a:hover {
-    color: var(--color-light-blue); /* Nav links turn light blue on hover */
+    color: #00BFFF; /* Light blue on hover */
 }
 
-.navbar-item a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    display: block;
-    margin-top: 5px;
-    right: 0;
-    background: var(--color-light-blue);
-    transition: width 0.3s ease;
-}
-
-.navbar-item a:hover::after {
+/* Flash Messages */
+.flash-messages {
+    list-style: none;
+    padding: 10px 20px;
+    margin: 60px 0 0; /* Adjust margin for fixed navbar */
+    position: fixed;
+    top: 0;
     width: 100%;
-    left: 0;
-    background: var(--color-light-blue);
+    box-sizing: border-box;
+    z-index: 1001; /* Above navbar */
 }
 
-body {
-    padding-top: 70px; /* Adjust based on navbar height + a little extra */
+.flash-messages li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    opacity: 1; /* Start opaque */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Smooth transition */
+}
+
+.flash-messages li.fade-out {
+    opacity: 0; /* Fade out */
+    transform: translateY(-20px); /* Move up slightly as it fades */
+}
+
+.flash-messages .success {
+    background-color: #28a745; /* Green */
+    color: white;
+}
+
+.flash-messages .error {
+    background-color: #dc3545; /* Red */
+    color: white;
 }
 
 
-/* --- Header (Hero Section) --- */
+/* --- Hero Section Styling --- */
 .hero-section {
-    height: calc(100vh - 70px);
+    background: linear-gradient(to bottom, #000, #333); /* Dark gradient background */
+    color: #fff;
+    text-align: center;
+    padding: 120px 20px 60px; /* Adjust top padding for fixed navbar */
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Moved logo to the top */
     align-items: center;
-    text-align: center;
-    position: relative;
-    padding: 20px;
-    padding-top: 100px; /* Added padding to bring logo down from very top */
-    background-color: var(--color-black); /* Black background */
+    justify-content: center;
+    min-height: 100vh; /* Make it full viewport height */
+    position: relative; /* For hero-background-image positioning */
+    overflow: hidden; /* Hide overflow from image if needed */
+}
+
+.hero-background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the entire section */
+    z-index: 1; /* Place behind text */
+    opacity: 0.3; /* Make it subtle */
+}
+
+.logo-area {
+    position: relative; /* For z-index to bring content above image */
+    z-index: 2;
+    margin-bottom: 40px; /* Space between logo area and bottom of hero */
 }
 
 .logo-area img {
-    max-width: 200px;
+    max-width: 200px; /* Adjust logo size */
     height: auto;
-    margin-bottom: 20px; /* Space below logo */
+    display: block; /* Remove extra space below image */
+    margin: 0 auto 20px; /* Center logo and add space below */
 }
 
-.logo-area h1 {
-    font-size: 3em;
-    margin: 0 0 10px 0;
-    color: var(--color-light-blue); /* Light blue heading */
+.hero-section h1 {
+    font-family: 'Georgia', serif; /* A more classic, bold font example */
+    font-size: 3.5em; /* Large for impact */
+    font-weight: 900; /* Extra bold */
+    color: #00BFFF; /* Bright blue for the name */
+    margin-bottom: 10px;
+    letter-spacing: 2px; /* Slightly spaced out for modern feel */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Subtle shadow */
 }
 
-.logo-area p {
-    font-size: 1.2em;
-    margin-bottom: 30px;
-    color: var(--color-white); /* White paragraph text */
+.hero-section .slogan {
+    font-family: 'Verdana', sans-serif; /* Clean, modern font */
+    font-size: 1.8em; /* Slogan size */
+    font-weight: 600; /* Semi-bold */
+    color: #fff; /* White for slogan */
+    margin-top: 0;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
 }
 
-.scroll-down-container {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
+.hero-section .tagline {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.2em; /* Smaller than slogan */
+    font-weight: 400; /* Regular weight */
+    color: #ccc; /* Slightly subdued for tagline */
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
 }
 
-.scroll-button {
-    display: inline-block;
-    padding: 12px 25px;
-    border: 2px solid var(--color-light-blue);
-    color: var(--color-light-blue);
-    background-color: transparent;
-    border-radius: 5px;
-    font-size: 1.1em;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.scroll-button:hover {
-    background-color: var(--color-light-blue);
-    color: var(--color-black);
-}
-
-/* --- About Section (WHITE BACKGROUND) --- */
+/* --- About Section --- */
 .about-section {
+    background-color: #1a1a1a; /* Darker gray for contrast */
     padding: 60px 20px;
-    background-color: var(--color-white); /* White background */
-    color: var(--color-black); /* Black text */
     text-align: center;
+    color: #fff;
 }
 
 .about-section h2 {
-    color: var(--color-black); /* Black heading */
-    margin-bottom: 30px;
+    color: #00BFFF;
+    font-size: 2.5em;
+    margin-bottom: 25px;
 }
 
 .about-section p {
-    max-width: 800px;
-    margin: 0 auto 20px auto;
     font-size: 1.1em;
-    color: var(--color-black); /* Ensure paragraphs are black */
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 15px;
 }
 
-.about-section a {
-    color: var(--color-black); /* Links are black */
-}
-
-.about-section a:hover {
-    color: var(--color-light-blue); /* Links turn light blue on hover */
-}
-
-
-/* --- Services Section (BLACK BACKGROUND) --- */
+/* --- Services Section --- */
 .services-section {
+    background-color: #000; /* Black for contrast */
     padding: 60px 20px;
-    background-color: var(--color-black); /* Black background */
-    color: var(--color-white); /* White text */
-    min-height: 100vh;
+    text-align: center;
+    color: #fff;
+}
+
+.services-section h2 {
+    color: #00BFFF;
+    font-size: 2.5em;
+    margin-bottom: 40px;
 }
 
 .services-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .service-card {
-    background-color: var(--color-dark-grey); /* Darker grey background for cards */
-    color: var(--color-white); /* Text color on cards */
+    background-color: #1a1a1a; /* Dark gray card background */
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
-    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    flex: 1 1 300px;
+    justify-content: space-between; /* Pushes button to bottom */
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
 }
 
 .service-card h3 {
-    color: var(--color-light-blue); /* Card titles in light blue */
+    color: #00BFFF;
+    font-size: 1.8em;
     margin-top: 0;
+    margin-bottom: 15px;
 }
 
 .service-card p {
-    color: var(--color-white); /* Paragraph text in white */
+    font-size: 1em;
+    line-height: 1.6;
+    flex-grow: 1; /* Allows paragraph to take up available space */
     margin-bottom: 20px;
-    flex-grow: 1;
 }
 
 .contact-button {
     display: inline-block;
-    padding: 10px 20px;
-    border: 2px solid var(--color-light-blue);
-    color: var(--color-light-blue);
-    background-color: transparent;
+    padding: 12px 25px;
+    background-color: #00BFFF;
+    color: #000;
+    text-decoration: none;
     border-radius: 5px;
-    font-size: 1em;
+    font-weight: bold;
     transition: background-color 0.3s ease, color 0.3s ease;
-    margin-top: 15px;
+    margin-top: auto; /* Pushes button to the bottom of the card */
 }
 
 .contact-button:hover {
-    background-color: var(--color-light-blue);
-    color: var(--color-black);
+    background-color: #fff;
+    color: #00BFFF;
 }
 
-/* --- Portfolio Section (WHITE BACKGROUND) --- */
+/* --- Portfolio Section --- */
 .portfolio-section {
+    background-color: #1a1a1a; /* Darker gray */
     padding: 60px 20px;
-    background-color: var(--color-white); /* White background */
-    color: var(--color-black); /* Black text for general section content */
     text-align: center;
+    color: #fff;
 }
 
 .portfolio-section h2 {
-    color: var(--color-black); /* Black heading */
-    margin-bottom: 30px;
+    color: #00BFFF;
+    font-size: 2.5em;
+    margin-bottom: 25px;
 }
 
-.portfolio-section .portfolio-intro-text {
-    max-width: 800px;
-    margin: 0 auto 40px auto;
+.portfolio-intro-text {
     font-size: 1.1em;
-    color: var(--color-black); /* Ensure intro text is black */
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 40px;
 }
 
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-    max-width: 1200px;
-    margin: 0 auto 50px auto;
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px 0; /* Add some padding around the message */
 }
 
-.portfolio-item {
-    background-color: var(--color-black); /* Black background for individual items (cards) */
+.portfolio-update-message {
+    grid-column: 1 / -1; /* Make the message span all columns */
+    font-size: 1.2em;
+    font-style: italic;
+    color: #ccc;
+    padding: 30px;
+    border: 1px dashed #00BFFF;
     border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.portfolio-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
-}
-
-.portfolio-item img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    display: block;
-}
-
-.portfolio-content {
-    padding: 25px;
-    text-align: left;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.portfolio-content h3 {
-    color: var(--color-light-blue); /* Light blue heading on black card */
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.4em;
-    text-align: left;
-}
-
-.portfolio-content p {
-    color: var(--color-white); /* White paragraph on black card */
-    font-size: 0.95em;
-    line-height: 1.5;
-    margin-bottom: 20px;
-    flex-grow: 1;
-    text-align: left;
-}
-
-.portfolio-link {
-    display: inline-block;
-    padding: 8px 15px;
-    border: 2px solid var(--color-light-blue);
-    color: var(--color-light-blue); /* Light blue link on black card */
-    background-color: transparent;
-    border-radius: 5px;
-    font-size: 0.9em;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    align-self: flex-start;
-}
-
-.portfolio-link:hover {
-    background-color: var(--color-light-blue);
-    color: var(--color-black);
+    background-color: rgba(0, 191, 255, 0.05); /* Very light blue background */
 }
 
 .portfolio-cta {
     font-size: 1.1em;
     margin-top: 40px;
-    color: var(--color-black); /* CTA text on white background is black */
 }
 
 .portfolio-cta a {
+    color: #00BFFF;
+    text-decoration: none;
     font-weight: bold;
-    text-decoration: underline;
-    color: var(--color-black); /* CTA link on white background is black */
 }
 
 .portfolio-cta a:hover {
-    color: var(--color-light-blue); /* CTA link on white background hovers to light blue */
+    text-decoration: underline;
 }
 
 
-/* --- Contact Form Section (BLACK BACKGROUND) --- */
+/* --- Contact Form Section --- */
 .contact-form-section {
+    background-color: #000; /* Black */
     padding: 60px 20px;
-    background-color: var(--color-black); /* Black background */
-    color: var(--color-white); /* White text */
-    min-height: 80vh;
+    text-align: center;
+    color: #fff;
 }
 
 .contact-form-section h2 {
-    color: var(--color-light-blue); /* Heading is light blue */
+    color: #00BFFF;
+    font-size: 2.5em;
+    margin-bottom: 25px;
 }
 
 .contact-form-section p {
-    color: var(--color-white); /* Paragraph is white */
+    font-size: 1.1em;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 40px;
 }
 
-
-/* General contact form container styling */
 .contact-form-container {
+    background-color: #1a1a1a;
+    padding: 40px;
+    border-radius: 10px;
     max-width: 600px;
-    margin: 40px auto;
-    padding: 30px;
-    background-color: var(--color-dark-grey); /* Dark grey background for the form area */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    color: var(--color-white);
+    margin: 0 auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    text-align: left; /* Align form elements to the left within the container */
 }
 
 .form-group {
@@ -406,107 +340,91 @@ body {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
-    color: var(--color-light-blue); /* Labels in light blue */
+    color: #ccc;
 }
 
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group textarea {
-    width: calc(100% - 20px);
-    padding: 10px;
-    border: 1px solid var(--color-light-blue);
-    border-radius: 4px;
-    background-color: var(--color-black); /* Black input background */
-    color: var(--color-white); /* White text input */
+    width: calc(100% - 20px); /* Account for padding */
+    padding: 12px 10px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
     font-size: 1em;
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
 .form-group input[type="text"]:focus,
 .form-group input[type="email"]:focus,
 .form-group textarea:focus {
+    border-color: #00BFFF; /* Highlight on focus */
     outline: none;
-    border-color: var(--color-white);
     box-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
-}
-
-textarea {
-    resize: vertical;
 }
 
 .submit-button {
     display: block;
     width: 100%;
-    padding: 12px;
-    background-color: var(--color-light-blue);
-    color: var(--color-black);
+    padding: 15px;
+    background-color: #00BFFF;
+    color: #000;
     border: none;
     border-radius: 5px;
     font-size: 1.2em;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, opacity 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
-    background-color: var(--color-darker-blue);
+    background-color: #fff;
+    color: #00BFFF;
 }
+
 
 /* --- Footer --- */
 footer {
+    background-color: #1a1a1a;
+    color: #ccc;
     text-align: center;
-    padding: 20px;
-    background-color: var(--color-dark-grey); /* Dark grey footer */
-    color: var(--color-white);
+    padding: 25px;
     font-size: 0.9em;
+    border-top: 1px solid #333;
 }
 
-
-/* --- Responsive Adjustments --- */
+/* Media Queries for Responsiveness */
 @media (max-width: 768px) {
     .navbar-list {
-        flex-direction: column;
-        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
-    .navbar {
-        padding: 10px 20px;
+
+    .navbar-item {
+        margin: 10px 15px;
     }
-    body {
-        padding-top: 150px; /* Adjust for stacked nav on small screens */
-    }
-    .hero-section {
-        height: calc(100vh - 150px); /* Adjust for new body padding */
-        padding-top: 50px; /* Less padding from top on smaller screens */
-    }
+
     .hero-section h1 {
-        font-size: 2em;
+        font-size: 2.5em;
     }
 
-    .logo-area img {
-        max-width: 150px;
+    .hero-section .slogan {
+        font-size: 1.4em;
     }
 
-    .services-grid {
-        flex-direction: column;
-        align-items: center;
+    .hero-section .tagline {
+        font-size: 1em;
     }
 
-    .service-card {
-        width: 90%;
-        max-width: none;
-    }
-
+    .services-grid,
     .portfolio-grid {
         grid-template-columns: 1fr;
-        padding: 0 10px;
     }
 
+    .service-card,
+    .portfolio-item,
     .contact-form-container {
-        margin: 20px;
-        padding: 20px;
-    }
-
-    .form-group input[type="text"],
-    .form-group input[type="email"],
-    .form-group textarea {
-        width: calc(100% - 20px);
+        padding: 25px;
     }
 }

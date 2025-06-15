@@ -40,13 +40,12 @@
         <div class="logo-area">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Script Ja Logo">
             <h1>Script Technologies Jamaica</h1>
-            <p>Business Solutions: Accounting & Legal Document Preparation</p>
+            <p class="slogan">Build Your World</p> {# Your new slogan #}
+            <p class="tagline">Business Solutions: Accounting & Legal Document Preparation</p> {# Retained original tagline #}
         </div>
 
-        <div class="scroll-down-container">
-            <a href="#services-section" class="scroll-button">
-            Scroll Down for Services &darr; </a>
-        </div>
+        {# Placeholder for background image - uncomment and update filename when ready #}
+        {# <img src="{{ url_for('static', filename='images/your-hero-image.jpg') }}" alt="Theme background" class="hero-background-image"> #}
     </header>
 
     <section id="about-section" class="about-section">
@@ -117,7 +116,6 @@
         </p>
     </section>
 
-    {# --- UPDATED: Contact Form Section with actual form --- #}
     <section id="contact-form-section" class="contact-form-section">
         <h2>Send Us a Query</h2>
         <p>Please use the form below to send us your inquiry.</p>
@@ -132,10 +130,7 @@
                     <label for="email">Your Email:</label>
                     <input type="email" id="email" name="email" required>
                 </div>
-                <div class="form-group">
-                    <label for="subject">Subject:</label>
-                    <input type="text" id="subject" name="subject" required>
-                </div>
+                {# REMOVED SUBJECT FIELD #}
                 <div class="form-group">
                     <label for="message">Message:</label>
                     <textarea id="message" name="message" rows="6" required></textarea>
@@ -144,7 +139,6 @@
             </form>
         </div>
     </section>
-    {# --- END UPDATED: Contact Form Section --- #}
 
     <footer>
         <p>&copy; 2025 Script Technologies Jamaica. All rights reserved.</p>
@@ -162,18 +156,18 @@
             });
         });
 
-        // Optional: Pre-fill subject based on service inquiry (from previous buttons)
+        // --- NEW: JavaScript for auto-hiding flash messages ---
         document.addEventListener('DOMContentLoaded', function() {
-            const contactButtons = document.querySelectorAll('.service-contact-button');
-            contactButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const serviceType = this.getAttribute('data-service-type');
-                    const subjectInput = document.getElementById('subject');
-                    if (subjectInput && serviceType) {
-                        subjectInput.value = `Inquiry about ${serviceType}`;
-                    }
-                });
+            const flashMessages = document.querySelectorAll('.flash-messages li');
+            flashMessages.forEach(message => {
+                setTimeout(() => {
+                    message.classList.add('fade-out');
+                    // Optional: Remove the element from the DOM after fade-out completes
+                    message.addEventListener('transitionend', () => message.remove());
+                }, 5000); // Disappear after 5 seconds
             });
+
+            // Removed original JavaScript for pre-filling subject as the field is gone
         });
     </script>
 </body>
