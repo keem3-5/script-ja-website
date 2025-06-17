@@ -1,10 +1,13 @@
+
+/* --- No more @font-face rule for Nexa Heavy needed here --- */
+
 /* General Body and HTML */
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', Arial, sans-serif; /* Changed to Poppins */
     margin: 0;
     padding: 0;
     background-color: #000; /* Dark background */
