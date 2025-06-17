@@ -193,7 +193,8 @@ Our mission is to simplify complex challenges and foster growth by delivering ef
         <p>&copy; 2025 Script Technologies Jamaica. All rights reserved.</p>
     </footer>
 
-    <script>
+<script>
+        // Smooth scroll for internal links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -220,94 +221,82 @@ Our mission is to simplify complex challenges and foster growth by delivering ef
                     message.classList.add('fade-out');
                     // Optional: Remove the element from the DOM after fade-out completes
                     message.addEventListener('transitionend', () => message.remove());
-                }, 5000); // Disappear after 5 seconds
+                }, 5000); // Disappear after 5 seconds (5000 milliseconds)
             });
         });
 
-      // --- NEW JAVASCRIPT FOR ACTIVE NAVBAR ON SCROLL ---
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.navbar-list .navbar-item a');
+        // --- NEW JAVASCRIPT FOR ACTIVE NAVBAR ON SCROLL ---
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.navbar-list .navbar-item a');
+        const navbarHeight = document.querySelector('.navbar').offsetHeight; // Get dynamic navbar height
 
-const options = {
-    root: null, // viewport as the root
-    // ADJUSTED rootMargin:
-    // This provides a larger "active zone" at the top and bottom to ensure
-    // the first and last sections are reliably detected.
-    // '-10% 0px -80% 0px' means:
-    // top: 10% of viewport height from the top edge (elements entering this are observed)
-    // right: 0px
-    // bottom: 80% of viewport height from the bottom edge (elements leaving this are observed)
-    // left: 0px
-    // This essentially creates an observation window that's from 10% down to 20% from the bottom.
-    // When the top of a section crosses this, it's considered in.
-    rootMargin: '-10% 0px -80% 0px', // Top 10% is excluded, bottom 80% is excluded.
-                                     // This makes the active detection happen when the *top*
-                                     // of a section is fairly high up on the screen.
-    threshold: 0 // As soon as any part of the section enters the rootMargin, trigger callback
-};
+        // This rootMargin creates a 'detection zone' slightly below the navbar.
+        // When a section's *top* edge enters this zone, it becomes active.
+        // The negative top margin should be slightly more than your fixed navbar height.
+        // Adjust '-70px' if your navbar's actual rendered height is different.
+        const options = {
+            root: null, // viewport as the root
+            rootMargin: `-${navbarHeight + 10}px 0px -80% 0px`, // Example: -70px (navbar + buffer) from top, 0 from sides, -80% from bottom
+            threshold: 0 // Trigger as soon as any part of the section enters the rootMargin
+        };
 
-// Use a variable to track the currently active section ID to prevent rapid flickering
-let activeSectionId = null;
+        const observer = new IntersectionObserver((entries, observer) => {
+            let currentActiveSection = null;
 
-const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        const navLink = document.querySelector(`.navbar-list .navbar-item a[href="#${entry.target.id}"]`);
-
-        if (navLink) {
-            if (entry.isIntersecting) {
-                // If a new section is entering and it's the one we expect or want to highlight
-                // Update the active section ID
-                activeSectionId = entry.target.id;
-
-                // Remove 'active' from all links first to ensure only one is active
-                navLinks.forEach(link => link.classList.remove('active'));
-                
-                // Add 'active' to the currently intersecting section's link
-                navLink.classList.add('active');
-            } else {
-                // If a section is exiting, and it was the one currently active,
-                // we need to re-evaluate or ensure a different one takes over.
-                // This 'else' block is less critical with the new logic below,
-                // but good for explicit state management.
-                if (navLink.classList.contains('active')) {
-                     // If the currently active section is leaving the viewport
-                     // and we don't have a clear new section intersecting,
-                     // we might need a fallback.
-                     // For now, the 'isIntersecting' condition will handle updates.
+            // Find the most prominent section that is currently intersecting
+            // We iterate in reverse to prioritize sections higher up the page when scrolling up,
+            // which can help with the 'Home' issue.
+            for (let i = entries.length - 1; i >= 0; i--) {
+                const entry = entries[i];
+                if (entry.isIntersecting && entry.intersectionRatio > 0) { // Ensure it's actually visible
+                    currentActiveSection = entry.target.id;
+                    break; // Found the highest one, stop searching
                 }
             }
-        }
-    });
-    // This part is crucial for handling the edge cases, especially for the 'Home' section.
-    // After processing all entries, check if we're at the very top of the page.
-    // If scroll position is very near the top and 'Home' isn't active, activate it.
-    const scrollY = window.scrollY || document.documentElement.scrollTop;
-    if (scrollY < 100) { // If scrolled almost to the top (adjust 100px threshold as needed)
-        const homeNavLink = document.querySelector('.navbar-list .navbar-item a[href="#hero-section"]');
-        if (homeNavLink && !homeNavLink.classList.contains('active')) {
-            navLinks.forEach(link => link.classList.remove('active'));
-            homeNavLink.classList.add('active');
-        }
-    }
-}, options);
 
-// Observe each section
-sections.forEach(section => {
-    observer.observe(section);
-});
+            // Fallback for when no section is strongly intersecting (e.g., in between sections)
+            // or for ensuring 'Home' is active at the very top.
+            const scrollY = window.scrollY || document.documentElement.scrollTop;
+            if (scrollY < (navbarHeight + 50)) { // If very close to the top of the page
+                currentActiveSection = 'hero-section';
+            }
 
-// --- Initial active state on page load ---
-// This is important for when the page loads at the top,
-// so "Home" or the first section is active.
-document.addEventListener('DOMContentLoaded', () => {
-    // We can rely on the scrollY check from the observer callback on initial load
-    // or keep this for explicit first section activation.
-    const homeNavLink = document.querySelector('.navbar-list .navbar-item a[href="#hero-section"]');
-    if (homeNavLink) {
-        homeNavLink.classList.add('active');
-    }
-});
-// --- End NEW JAVASCRIPT FOR ACTIVE NAVBAR ON SCROLL ---
+            // Apply active class based on the determined currentActiveSection
+            if (currentActiveSection) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+                const activeLink = document.querySelector(`.navbar-list .navbar-item a[href="#${currentActiveSection}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+            } else {
+                // If for some reason no section is intersecting and not at the top,
+                // you might want to clear all active states or default to 'Home'.
+                // For a scrollspy, usually one is always active.
+                // This 'else' block might indicate a rootMargin issue if it triggers often.
+                navLinks.forEach(link => link.classList.remove('active'));
+                // As a robust fallback, always activate Home if nothing else is clear.
+                document.querySelector('.navbar-list .navbar-item a[href="#hero-section"]').classList.add('active');
+            }
+
+        }, options);
+
+        // Observe each section
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- Initial active state on page load ---
+        // Ensure 'Home' is active immediately on page load before any scrolling.
+        document.addEventListener('DOMContentLoaded', () => {
+            const homeNavLink = document.querySelector('.navbar-list .navbar-item a[href="#hero-section"]');
+            if (homeNavLink) {
+                navLinks.forEach(link => link.classList.remove('active')); // Clear any existing
+                homeNavLink.classList.add('active');
+            }
+        });
+        // --- End NEW JAVASCRIPT FOR ACTIVE NAVBAR ON SCROLL ---
     </script>
 </body>
 </html>
