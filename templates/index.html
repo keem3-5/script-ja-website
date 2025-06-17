@@ -1,4 +1,3 @@
-<!-- This is the main HTML template for Script Technologies Jamaica's business solutions website -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,7 +41,7 @@
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Script Ja Logo">
             <h1>Script Technologies Jamaica</h1>
             <p class="slogan">Build Your World</p> {# Your new slogan #}
-            <p class="tagline">Empowering Your Business with Innovative Solutions</p>   
+            <p class="tagline">Empowering Your Business with Innovative Solutions</p>  
         </div>
 
         {# Placeholder for background image - uncomment and update filename when ready #}
@@ -194,11 +193,18 @@ Our mission is to simplify complex challenges and foster growth by delivering ef
         <p>&copy; 2025 Script Technologies Jamaica. All rights reserved.</p>
     </footer>
 
-    {# Basic JavaScript for smooth scrolling (remains the same) #}
     <script>
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
+
+                // Remove active class from all links first
+                document.querySelectorAll('.navbar-item a').forEach(link => {
+                    link.classList.remove('active');
+                });
+
+                // Add active class to the clicked link
+                this.classList.add('active');
 
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
@@ -217,6 +223,54 @@ Our mission is to simplify complex challenges and foster growth by delivering ef
                 }, 5000); // Disappear after 5 seconds
             });
         });
+
+        // --- NEW JAVASCRIPT FOR ACTIVE NAVBAR ON SCROLL ---
+        const sections = document.querySelectorAll('section[id]'); // Get all sections with an ID
+        const navLinks = document.querySelectorAll('.navbar-list .navbar-item a'); // Get all navbar links
+
+        const options = {
+            root: null, // viewport as the root
+            rootMargin: '-50% 0px -50% 0px', // Adjust this to define "middle of the viewport" more accurately
+                                            // -50% from top, -50% from bottom means the element needs to be roughly
+                                            // in the middle 50% of the viewport to be considered intersecting.
+            threshold: 0 // As soon as any part of the section enters the rootMargin, trigger callback
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                const navLink = document.querySelector(`.navbar-list .navbar-item a[href="#${entry.target.id}"]`);
+
+                if (navLink) { // Ensure the corresponding nav link exists
+                    if (entry.isIntersecting) {
+                        // Remove 'active' from all links first to ensure only one is active
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        // Add 'active' to the currently intersecting section's link
+                        navLink.classList.add('active');
+                    }
+                    // No 'else' needed here, as the next intersecting section will remove the active class from others
+                }
+            });
+        }, options);
+
+        // Observe each section
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- Initial active state on page load ---
+        // This is important for when the page loads at the top,
+        // so "Home" or the first section is active.
+        document.addEventListener('DOMContentLoaded', () => {
+            // Find the first section element if it exists
+            const firstSection = document.querySelector('section[id]');
+            if (firstSection) {
+                const homeNavLink = document.querySelector(`.navbar-list .navbar-item a[href="#${firstSection.id}"]`);
+                if (homeNavLink) {
+                    homeNavLink.classList.add('active');
+                }
+            }
+        });
+        // --- End NEW JAVASCRIPT FOR ACTIVE NAVBAR ON SCROLL ---
     </script>
 </body>
 </html>

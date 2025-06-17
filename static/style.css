@@ -1,4 +1,3 @@
-
 /* --- No more @font-face rule for Nexa Heavy needed here --- */
 
 /* General Body and HTML */
@@ -46,8 +45,9 @@ body {
     transition: color 0.3s ease;
 }
 
-.navbar-item a:hover {
-    color: #00BFFF; /* Light blue on hover */
+.navbar-item a:hover,
+.navbar-item a.active { /* Added .active class */
+    color: #00BFFF; /* Light blue on hover and when active */
 }
 
 /* Flash Messages */
@@ -68,9 +68,8 @@ body {
     border-radius: 5px;
     font-weight: bold;
     text-align: center;
-    /* ADJUSTMENT HERE: Initial opacity for the message */
     opacity: 0.85; /* Start slightly transparent (85% opaque) */
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out; /* Smooth transition, increased duration for more noticeable fade */
 }
 
 .flash-messages li.fade-out {
@@ -94,8 +93,7 @@ body {
     background: linear-gradient(to bottom, #000, #333); /* Dark gradient background */
     color: #fff;
     text-align: center;
-    /* ADJUSTMENT HERE: Reduced padding-top */
-    padding: 90px 20px 60px; /* Reduced top padding from 120px to 90px */
+    padding: 90px 20px 60px; /* Adjusted top padding from 120px to 90px */
     display: flex;
     flex-direction: column;
     align-items: center;
