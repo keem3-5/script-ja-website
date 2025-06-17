@@ -68,8 +68,9 @@ body {
     border-radius: 5px;
     font-weight: bold;
     text-align: center;
-    opacity: 1; /* Start opaque */
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Smooth transition */
+    /* ADJUSTMENT HERE: Initial opacity for the message */
+    opacity: 0.85; /* Start slightly transparent (85% opaque) */
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
 }
 
 .flash-messages li.fade-out {
@@ -93,7 +94,8 @@ body {
     background: linear-gradient(to bottom, #000, #333); /* Dark gradient background */
     color: #fff;
     text-align: center;
-    padding: 120px 20px 60px; /* Adjust top padding for fixed navbar */
+    /* ADJUSTMENT HERE: Reduced padding-top */
+    padding: 90px 20px 60px; /* Reduced top padding from 120px to 90px */
     display: flex;
     flex-direction: column;
     align-items: center;
