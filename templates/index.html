@@ -225,78 +225,88 @@ Our mission is to simplify complex challenges and foster growth by delivering ef
             });
         });
 
-        // --- NEW JAVASCRIPT FOR ACTIVE NAVBAR ON SCROLL ---
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.navbar-list .navbar-item a');
-        const navbarHeight = document.querySelector('.navbar').offsetHeight; // Get dynamic navbar height
-
-        // This rootMargin creates a 'detection zone' slightly below the navbar.
-        // When a section's *top* edge enters this zone, it becomes active.
-        // The negative top margin should be slightly more than your fixed navbar height.
-        // Adjust '-70px' if your navbar's actual rendered height is different.
-        const options = {
-            root: null, // viewport as the root
-            rootMargin: `-${navbarHeight + 10}px 0px -80% 0px`, // Example: -70px (navbar + buffer) from top, 0 from sides, -80% from bottom
-            threshold: 0 // Trigger as soon as any part of the section enters the rootMargin
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            let currentActiveSection = null;
-
-            // Find the most prominent section that is currently intersecting
-            // We iterate in reverse to prioritize sections higher up the page when scrolling up,
-            // which can help with the 'Home' issue.
-            for (let i = entries.length - 1; i >= 0; i--) {
-                const entry = entries[i];
-                if (entry.isIntersecting && entry.intersectionRatio > 0) { // Ensure it's actually visible
-                    currentActiveSection = entry.target.id;
-                    break; // Found the highest one, stop searching
-                }
+         <script>
+        // --- Function to set active link ---
+        function setActiveLink(sectionId) {
+            const navLinks = document.querySelectorAll('.navbar-list .navbar-item a');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            const activeLink = document.querySelector(`.navbar-list .navbar-item a[href="#${sectionId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
             }
+        }
 
-            // Fallback for when no section is strongly intersecting (e.g., in between sections)
-            // or for ensuring 'Home' is active at the very top.
-            const scrollY = window.scrollY || document.documentElement.scrollTop;
-            if (scrollY < (navbarHeight + 50)) { // If very close to the top of the page
-                currentActiveSection = 'hero-section';
-            }
+        // --- Smooth scroll for internal links (Click handler) ---
+        // This also immediately sets the clicked link as active.
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
 
-            // Apply active class based on the determined currentActiveSection
-            if (currentActiveSection) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
+                // Immediately set the clicked link as active
+                setActiveLink(this.getAttribute('href').substring(1)); // Remove '#' prefix
+
+                // Smooth scroll to target, accounting for fixed navbar
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const navbarHeight = document.querySelector('.navbar').offsetHeight; // Get dynamic navbar height
+
+                // Calculate the position to scroll to
+                // targetElement.offsetTop is its distance from the top of the document.
+                // Subtract navbarHeight to make it stop just below the navbar.
+                const targetPosition = targetElement.offsetTop - navbarHeight;
+
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
                 });
-                const activeLink = document.querySelector(`.navbar-list .navbar-item a[href="#${currentActiveSection}"]`);
-                if (activeLink) {
-                    activeLink.classList.add('active');
+            });
+        });
+
+        // --- Scrollspy (highlight on scroll) ---
+        // This section handles the active state changes as you scroll the page.
+        window.addEventListener('scroll', () => {
+            const navbarHeight = document.querySelector('.navbar').offsetHeight;
+            let currentActiveSectionId = 'hero-section'; // Default to 'Home'
+
+            // Iterate through sections to find the one currently in view
+            document.querySelectorAll('section[id]').forEach(section => {
+                // Calculate the effective top of the section relative to the document
+                const sectionTop = section.offsetTop - navbarHeight;
+                // Calculate the effective bottom of the section relative to the document
+                const sectionBottom = sectionTop + section.offsetHeight;
+
+                // Check if the current scroll position is within the section's bounds
+                // A section is considered active if its top is above or at the current scroll position
+                // (adjusted for navbar height) AND its bottom is below the current scroll position.
+                // The +1 ensures that when you scroll *exactly* to the top of a section, it activates.
+                if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+                    currentActiveSectionId = section.id;
                 }
-            } else {
-                // If for some reason no section is intersecting and not at the top,
-                // you might want to clear all active states or default to 'Home'.
-                // For a scrollspy, usually one is always active.
-                // This 'else' block might indicate a rootMargin issue if it triggers often.
-                navLinks.forEach(link => link.classList.remove('active'));
-                // As a robust fallback, always activate Home if nothing else is clear.
-                document.querySelector('.navbar-list .navbar-item a[href="#hero-section"]').classList.add('active');
-            }
+            });
 
-        }, options);
+            // Set the active link based on the determined section
+            setActiveLink(currentActiveSectionId);
+        });
 
-        // Observe each section
-        sections.forEach(section => {
-            observer.observe(section);
+        // --- JavaScript for auto-hiding flash messages ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.flash-messages li');
+            flashMessages.forEach(message => {
+                setTimeout(() => {
+                    message.classList.add('fade-out');
+                    // Optional: Remove the element from the DOM after fade-out completes
+                    message.addEventListener('transitionend', () => message.remove());
+                }, 5000); // Disappear after 5 seconds (5000 milliseconds)
+            });
         });
 
         // --- Initial active state on page load ---
         // Ensure 'Home' is active immediately on page load before any scrolling.
         document.addEventListener('DOMContentLoaded', () => {
-            const homeNavLink = document.querySelector('.navbar-list .navbar-item a[href="#hero-section"]');
-            if (homeNavLink) {
-                navLinks.forEach(link => link.classList.remove('active')); // Clear any existing
-                homeNavLink.classList.add('active');
-            }
+            setActiveLink('hero-section');
         });
-        // --- End NEW JAVASCRIPT FOR ACTIVE NAVBAR ON SCROLL ---
     </script>
 </body>
 </html>
