@@ -93,7 +93,7 @@ body {
     background: linear-gradient(to bottom, #000, #333); /* Dark gradient background */
     color: #fff;
     text-align: center;
-    padding: 90px 20px 60px; /* Adjusted top padding from 120px to 90px */
+    padding: 60px 20px 60px; /* Adjusted top padding from 120px to 90px */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -121,37 +121,40 @@ body {
 }
 
 .logo-area img {
-    max-width: 200px; /* Adjust logo size */
+    max-width: 600px; /* Adjust logo size */
     height: auto;
     display: block; /* Remove extra space below image */
     margin: 0 auto 20px; /* Center logo and add space below */
 }
 
+/* --- Hero Section Styling --- */
+/* ... (rest of .hero-section styles) ... */
+
 .hero-section h1 {
-    font-family: 'Georgia', serif; /* A more classic, bold font example */
-    font-size: 3.5em; /* Large for impact */
-    font-weight: 900; /* Extra bold */
-    color: #00BFFF; /* Bright blue for the name */
+    font-family: 'Poppins', sans-serif; /* Changed from 'Georgia', serif; */
+    font-size: 3.5em; /* Remains the same */
+    font-weight: 900; /* Remains the same */
+    color: #00BFFF; /* Remains the same */
     margin-bottom: 10px;
-    letter-spacing: 2px; /* Slightly spaced out for modern feel */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Subtle shadow */
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
 }
 
 .hero-section .slogan {
-    font-family: 'Verdana', sans-serif; /* Clean, modern font */
-    font-size: 1.8em; /* Slogan size */
-    font-weight: 600; /* Semi-bold */
-    color: #fff; /* White for slogan */
+    font-family: 'Poppins', sans-serif; /* Changed from 'Verdana', sans-serif; */
+    font-size: 1.8em; /* Remains the same */
+    font-weight: 600; /* Remains the same */
+    color: #fff;
     margin-top: 0;
     margin-bottom: 15px;
     letter-spacing: 1px;
 }
 
 .hero-section .tagline {
-    font-family: 'Arial', sans-serif;
-    font-size: 1.2em; /* Smaller than slogan */
-    font-weight: 400; /* Regular weight */
-    color: #ccc; /* Slightly subdued for tagline */
+    font-family: 'Poppins', sans-serif; /* Changed from 'Arial', sans-serif; */
+    font-size: 1.2em; /* Remains the same */
+    font-weight: 400; /* Remains the same */
+    color: #ccc;
     max-width: 600px;
     margin: 0 auto;
     line-height: 1.5;
