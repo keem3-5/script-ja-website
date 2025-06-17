@@ -20,6 +20,8 @@ body {
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    /* NEW: Add position relative for absolute positioning of progress bar */
+    position: relative; 
 }
 
 .navbar-list {
@@ -46,6 +48,19 @@ body {
 .navbar-item a:hover {
     color: #00BFFF; /* Light blue on hover */
 }
+
+/* NEW: Scroll Progress Bar Styling */
+.scroll-progress-bar {
+    position: absolute; /* Position relative to .navbar */
+    bottom: 0; /* Align to the bottom of the navbar */
+    left: 0;
+    height: 4px; /* Thickness of the bar */
+    background-color: #00BFFF; /* Blue color */
+    width: 0%; /* Starts at 0% and expands */
+    transition: width 0.1s linear; /* Smooth animation for width change */
+    z-index: 1001; /* Ensure it's above other navbar content if needed */
+}
+
 
 /* Flash Messages */
 .flash-messages {

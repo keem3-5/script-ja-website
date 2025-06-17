@@ -34,6 +34,8 @@
             <li class="navbar-item"><a href="{{ url_for('blog') }}">Blog</a></li>
             <li class="navbar-item"><a href="#contact-form-section">Contact</a></li>
         </ul>
+        {# --- NEW: Scroll Progress Bar Element --- #}
+        <div class="scroll-progress-bar"></div>
     </nav>
 
     <header class="hero-section" id="hero-section">
@@ -41,7 +43,7 @@
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Script Ja Logo">
             <h1>Script Technologies Jamaica</h1>
             <p class="slogan">Build Your World</p> {# Your new slogan #}
-            <p class="tagline">Empowering Your Business with Innovative Solutions</p>   
+            <p class="tagline">Empowering Your Business with Innovative Solutions</p>  
         </div>
 
         {# Placeholder for background image - uncomment and update filename when ready #}
@@ -193,7 +195,6 @@ Our mission is to simplify complex challenges and foster growth by delivering ef
         <p>&copy; 2025 Script Technologies Jamaica. All rights reserved.</p>
     </footer>
 
-    {# Basic JavaScript for smooth scrolling (remains the same) #}
     <script>
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -216,6 +217,25 @@ Our mission is to simplify complex challenges and foster growth by delivering ef
                 }, 5000); // Disappear after 5 seconds
             });
         });
+
+        // --- NEW JAVASCRIPT for Scroll Progress Bar ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBar = document.querySelector('.scroll-progress-bar');
+
+            function updateProgressBar() {
+                const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPosition = window.scrollY;
+                const progress = (scrollPosition / totalHeight) * 100;
+                progressBar.style.width = progress + '%';
+            }
+
+            // Update on scroll
+            window.addEventListener('scroll', updateProgressBar);
+
+            // Also update on page load (in case user reloads mid-scroll)
+            updateProgressBar();
+        });
+        // --- END NEW JAVASCRIPT ---
     </script>
 </body>
 </html>
