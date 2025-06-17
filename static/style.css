@@ -121,7 +121,7 @@ body {
 }
 
 .logo-area img {
-    max-width: 600px; /* Adjust logo size */
+    max-width: 350px; /* Adjust logo size */
     height: auto;
     display: block; /* Remove extra space below image */
     margin: 0 auto 20px; /* Center logo and add space below */
