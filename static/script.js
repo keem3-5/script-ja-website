@@ -1,16 +1,16 @@
 <script>
     // --- Function to set active link ---
     // This function adds/removes the 'active' class which your CSS styles blue.
-    function setActiveLink(sectionId) {
+    function setActiveLink(sectionId) 
         const navLinks = document.querySelectorAll('.navbar-list .navbar-item a');
-        navLinks.forEach(link => {
+        navLinks.forEach(link = {
             link.classList.remove('active');
         });
         const activeLink = document.querySelector(`.navbar-list .navbar-item a[href="#${sectionId}"]`);
         if (activeLink) {
             activeLink.classList.add('active');
         }
-    }
+    
 
     // --- Smooth scroll for internal links (Click handler) ---
     // This handles what happens when you click a navigation link.

@@ -1,87 +1,205 @@
-<script>
-    // --- Function to set active link ---
-    // This function adds/removes the 'active' class which your CSS styles blue.
-    function setActiveLink(sectionId) {
-        const navLinks = document.querySelectorAll('.navbar-list .navbar-item a');
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-        });
-        const activeLink = document.querySelector(`.navbar-list .navbar-item a[href="#${sectionId}"]`);
-        if (activeLink) {
-            activeLink.classList.add('active');
-        }
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script-Build Your World</title>
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
-    // --- Smooth scroll for internal links (Click handler) ---
-    // This handles what happens when you click a navigation link.
-    // It also correctly sets the blue highlight immediately on click.
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+</head>
+<body>
 
-            // 1. Immediately set the clicked link as active (turns it blue)
-            setActiveLink(this.getAttribute('href').substring(1)); // Remove '#' prefix
+    {# --- Flashed Messages Area --- #}
+    <ul class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </ul>
+    {# --- End Flashed Messages Area --- #}
 
-            // 2. Smooth scroll to the target section, accounting for the fixed navbar.
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            const navbarHeight = document.querySelector('.navbar').offsetHeight; 
+    <nav class="navbar">
+        <ul class="navbar-list">
+            <li class="navbar-item"><a href="#hero-section">Home</a></li>
+            <li class="navbar-item"><a href="#about-section">About Us</a></li>
+            <li class="navbar-item"><a href="#services-section">Services</a></li>
+            <li class="navbar-item"><a href="#portfolio-section">Portfolio</a></li>
+            <li class="navbar-item"><a href="{{ url_for('blog') }}">Blog</a></li>
+            <li class="navbar-item"><a href="#contact-form-section">Contact</a></li>
+        </ul>
+    </nav>
 
-            const targetPosition = targetElement.offsetTop - navbarHeight;
+    <header class="hero-section" id="hero-section">
+        <div class="logo-area">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Script Ja Logo">
+            <h1>Script Technologies Jamaica</h1>
+            <p class="slogan">Build Your World</p>
+            <p class="tagline">Empowering Your Business with Innovative Solutions</p>
+            
+            {# --- Video Section --- #}
+            <div class="video-container">
+                <video class="hero-video" autoplay muted loop playsinline>
+                    <source src="{{ url_for('static', filename='video/hero-video.mp4') }}" type="video/mp4">
+                    <p>Your browser does not support the video tag.</p>
+                </video>
+                <div class="video-overlay">
+                    <p>Experience the Future of Business Technology</p>
+                </div>
+            </div>
+        </div>
 
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        });
-    });
+        {# Placeholder for background image - uncomment and update filename when ready #}
+        {# <img src="{{ url_for('static', filename='images/your-hero-image.jpg') }}" alt="Theme background" class="hero-background-image"> #}
+    </header>
 
-    // --- SCROLLSPY LOGIC (HIGHLIGHT ON SCROLL) ---
-    // This is the part that makes the links turn blue as you scroll.
-    window.addEventListener('scroll', () => {
-        const navbar = document.querySelector('.navbar'); 
-        const navbarHeight = navbar ? navbar.offsetHeight : 0; // Get the height of your fixed navbar
+    <section id="about-section" class="about-section">
+        <h2>About Script Technologies Jamaica</h2>
+        <p>
+        Script Technologies Jamaica is a dynamic firm committed to empowering businesses and individuals across Jamaica with comprehensive and innovative solutions. We offer a diverse range of expertise, including meticulous accounting services, expert legal document preparation, bespoke Software and Web Development, transformative Business Process Automation, and strategic AI Integration. We equip our clients for the digital age by blending traditional business support with cutting-edge technology.
 
-        // Define a "trigger line" just below your fixed navbar.
-        // When the top of a section crosses this line, that section's link will highlight.
-        // Adding +5 pixels gives a small buffer for smoother transitions.
-        const scrollTriggerLine = window.scrollY + navbarHeight + 5; 
+Our mission is to simplify complex challenges and foster growth by delivering efficient, reliable, and tailored solutions. Whether you're seeking robust financial management, precise legal assistance, or looking to innovate your operations through custom software, intelligent automation, or artificial intelligence, Script Technologies Jamaica is your trusted partner. We're dedicated to professional excellence, confidentiality, and ensuring your success in an evolving landscape.
+        </p>
+        <p>
+            Our team of experts is here to guide you through every step, ensuring that your business not only meets but exceeds its goals.
+            We pride ourselves on our commitment to quality, integrity, and client satisfaction.
+        </p>
+    </section>
 
-        let currentActiveSectionId = 'hero-section'; // Default to 'hero-section' (Home) if no other section is detected
+    <section id="services-section" class="services-section">
+        <h2>Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Accounting Services</h3>
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='images/services/accounting-1.svg') }}" alt="Accounting Services" loading="lazy">
+                </div>
+                <p>
+                    We provide comprehensive accounting solutions including bookkeeping,
+                    financial statement preparation, tax planning and filing, payroll processing,
+                    and business advisory to help manage your finances effectively.
+                </p>
+                <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="accounting">Inquire about Accounting</a>
+            </div>
 
-        const sections = document.querySelectorAll('section[id]'); // Get all your page sections
+            <div class="service-card">
+                <h3>Legal Document Preparation Services</h3>
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='images/services/legal-1.svg') }}" alt="Legal Document Preparation" loading="lazy">
+                </div>
+                <p>
+                    Our professional document preparation services simplify your personal and business needs.
+                    We expertly handle uncontested divorce paperwork, will creation, contract drafting, and business policies.
+                    We also provide data protection guidance and craft standout resumes and cover letters for job seekers.
+                    Let us manage your documentation so you can focus on what truly matters.
+                </p>
+                <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="legal document preparation services">Inquire about Legal Document Preparation</a>
+            </div>
 
-        // Loop through each section to find which one is currently at the 'scrollTriggerLine'
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop; // The distance of the section's top from the very top of the document
-            const sectionBottom = sectionTop + section.offsetHeight; // The distance of the section's bottom from the very top of the document
+            <div class="service-card">
+                <h3>Business Registration & Compliance</h3>
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='images/services/business-reg-1.svg') }}" alt="Business Registration" loading="lazy">
+                </div>
+                <p>
+                    Navigating the complexities of starting a business in Jamaica?
+                    We assist with company registration, business name registration, tax compliance (TRN, GCT),
+                    and other regulatory requirements to ensure your business is legally sound from day one.
+                </p>
+                <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="business registration">Inquire about Business Registration</a>
+            </div>
 
-            // Check if the 'scrollTriggerLine' is currently within the vertical bounds of this section.
-            // If it is, this section is considered the "active" one.
-            if (scrollTriggerLine >= sectionTop && scrollTriggerLine < sectionBottom) {
-                currentActiveSectionId = section.id; // Set this section as the currently active one
-            }
-        });
+            <div class="service-card">
+                <h3>Software and Web Development</h3>
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='images/services/software-dev-1.svg') }}" alt="Software Development" loading="lazy">
+                </div>
+                <p>
+                    Custom software solutions and responsive web applications tailored to your specific business needs,
+                    ensuring efficiency, scalability, and a strong online presence. We build robust and modern digital tools.
+                </p>
+                <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="software and web development">Inquire about Software & Web Development</a>
+            </div>
 
-        // Apply the 'active' class to the corresponding navigation link.
-        setActiveLink(currentActiveSectionId);
-    });
+            <div class="service-card">
+                <h3>Business Process Automation</h3>
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='images/services/automation-1.svg') }}" alt="Business Process Automation" loading="lazy">
+                </div>
+                <p>
+                    Streamline your operations by automating repetitive tasks, improving efficiency, reducing errors,
+                    and freeing up your team for more strategic work. Transform manual workflows into seamless, automated processes.
+                </p>
+                <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="business process automation">Inquire about Business Process Automation</a>
+            </div>
 
-    // --- JavaScript for auto-hiding flash messages ---
-    // This remains unchanged and functions independently.
-    document.addEventListener('DOMContentLoaded', function() {
-        const flashMessages = document.querySelectorAll('.flash-messages li');
-        flashMessages.forEach(message => {
-            setTimeout(() => {
-                message.classList.add('fade-out');
-                message.addEventListener('transitionend', () => message.remove());
-            }, 5000); // Disappear after 5 seconds
-        });
-    });
+            <div class="service-card">
+                <h3>AI Integration</h3>
+                <div class="service-image">
+                    <img src="{{ url_for('static', filename='images/services/ai-1.svg') }}" alt="AI Integration" loading="lazy">
+                </div>
+                <p>
+                    Leverage the power of Artificial Intelligence to enhance decision-making, automate complex processes,
+                    provide advanced analytics, and create intelligent solutions for your business. Unlock new levels of efficiency and insight.
+                </p>
+                <a href="#contact-form-section" class="contact-button service-contact-button" data-service-type="ai integration">Inquire about AI Integration</a>
+            </div>
+        </div>
+    </section>
 
-    // --- Initial active state on page load ---
-    // Ensures 'Home' is highlighted when the page first loads.
-    document.addEventListener('DOMContentLoaded', () => {
-        setActiveLink('hero-section');
-    });
-</script>
+    <section id="portfolio-section" class="portfolio-section">
+        <h2>Our Work & Case Studies</h2>
+        <p class="portfolio-intro-text">
+            Explore a selection of our successful projects and see how Script Technologies Jamaica has helped
+            our clients achieve their business and personal objectives.
+        </p>
+
+        <div class="portfolio-grid">
+            <p class="portfolio-update-message">Our portfolio is currently being updated. Please check back soon for our latest projects!</p>
+        </div>
+
+        <p class="portfolio-cta">
+            Want to see more detailed case studies or discuss a specific need? <a href="#contact-form-section">Contact us today!</a>
+        </p>
+    </section>
+
+    <section id="contact-form-section" class="contact-form-section">
+        <h2>Send Us a Query</h2>
+        <p>Please use the form below to send us your inquiry.</p>
+
+        <div class="contact-form-container">
+            <form action="{{ url_for('contact') }}" method="POST">
+                <div class="form-group">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="6" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Script Technologies Jamaica. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
