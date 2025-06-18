@@ -6,16 +6,16 @@ html {
 }
 
 body {
-    font-family: 'Poppins', Arial, sans-serif; /* Changed to Poppins */
+    font-family: 'Poppins', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #000; /* Dark background */
-    color: #fff; /* White text */
+    background-color: #000;
+    color: #fff;
 }
 
 /* Navbar */
 .navbar {
-    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+    background-color: rgba(0, 0, 0, 0.8);
     padding: 15px 0;
     position: fixed;
     width: 100%;
@@ -30,7 +30,7 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center; /* Center items vertically */
+    align-items: center;
 }
 
 .navbar-item {
@@ -46,20 +46,20 @@ body {
 }
 
 .navbar-item a:hover,
-.navbar-item a.active { /* Added .active class */
-    color: #00BFFF; /* Light blue on hover and when active */
+.navbar-item a.active {
+    color: #00BFFF;
 }
 
 /* Flash Messages */
 .flash-messages {
     list-style: none;
     padding: 10px 20px;
-    margin: 60px 0 0; /* Adjust margin for fixed navbar */
+    margin: 60px 0 0;
     position: fixed;
     top: 0;
     width: 100%;
     box-sizing: border-box;
-    z-index: 1001; /* Above navbar */
+    z-index: 1001;
 }
 
 .flash-messages li {
@@ -68,39 +68,38 @@ body {
     border-radius: 5px;
     font-weight: bold;
     text-align: center;
-    opacity: 0.85; /* Start slightly transparent (85% opaque) */
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out; /* Smooth transition, increased duration for more noticeable fade */
+    opacity: 0.85;
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
 }
 
 .flash-messages li.fade-out {
-    opacity: 0; /* Fade out */
-    transform: translateY(-20px); /* Move up slightly as it fades */
+    opacity: 0;
+    transform: translateY(-20px);
 }
 
 .flash-messages .success {
-    background-color: #28a745; /* Green */
+    background-color: #28a745;
     color: white;
 }
 
 .flash-messages .error {
-    background-color: #dc3545; /* Red */
+    background-color: #dc3545;
     color: white;
 }
 
-
 /* --- Hero Section Styling --- */
 .hero-section {
-    background: linear-gradient(to bottom, #000, #333); /* Dark gradient background */
+    background: linear-gradient(to bottom, #000, #333);
     color: #fff;
     text-align: center;
-    padding: 60px 20px 60px; /* Adjusted top padding from 120px to 90px */
+    padding: 60px 20px 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh; /* Make it full viewport height */
-    position: relative; /* For hero-background-image positioning */
-    overflow: hidden; /* Hide overflow from image if needed */
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-background-image {
@@ -109,41 +108,38 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cover the entire section */
-    z-index: 1; /* Place behind text */
-    opacity: 0.3; /* Make it subtle */
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.3;
 }
 
 .logo-area {
-    position: relative; /* For z-index to bring content above image */
+    position: relative;
     z-index: 2;
-    margin-bottom: 40px; /* Space between logo area and bottom of hero */
+    margin-bottom: 40px;
 }
 
 .logo-area img {
-    max-width: 350px; /* Adjust logo size */
+    max-width: 350px;
     height: auto;
-    display: block; /* Remove extra space below image */
-    margin: 0 auto 20px; /* Center logo and add space below */
+    display: block;
+    margin: 0 auto 20px;
 }
 
-/* --- Hero Section Styling --- */
-/* ... (rest of .hero-section styles) ... */
-
 .hero-section h1 {
-    font-family: 'Poppins', sans-serif; /* Changed from 'Georgia', serif; */
-    font-size: 3.5em; /* Remains the same */
-    font-weight: 900; /* Remains the same */
-    color: #00BFFF; /* Remains the same */
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.5em;
+    font-weight: 900;
+    color: #00BFFF;
     margin-bottom: 10px;
     letter-spacing: 2px;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
 }
 
 .hero-section .slogan {
-    font-family: 'Poppins', sans-serif; /* Changed from 'Verdana', sans-serif; */
-    font-size: 1.8em; /* Remains the same */
-    font-weight: 600; /* Remains the same */
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8em;
+    font-weight: 600;
     color: #fff;
     margin-top: 0;
     margin-bottom: 15px;
@@ -151,18 +147,57 @@ body {
 }
 
 .hero-section .tagline {
-    font-family: 'Poppins', sans-serif; /* Changed from 'Arial', sans-serif; */
-    font-size: 1.2em; /* Remains the same */
-    font-weight: 400; /* Remains the same */
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2em;
+    font-weight: 400;
     color: #ccc;
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0 auto 30px;
     line-height: 1.5;
+}
+
+/* --- Video Container Styling --- */
+.video-container {
+    position: relative;
+    max-width: 800px;
+    width: 100%;
+    margin: 30px auto 0;
+    border-radius: 15px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(0, 0, 0, 0.3));
+    border: 2px solid rgba(0, 191, 255, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 191, 255, 0.1);
+}
+
+.hero-video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 13px;
+    filter: brightness(0.8) contrast(1.1);
+}
+
+.video-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    padding: 20px;
+    color: #fff;
+    text-align: center;
+}
+
+.video-overlay p {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 /* --- About Section --- */
 .about-section {
-    background-color: #1a1a1a; /* Darker gray for contrast */
+    background-color: #1a1a1a;
     padding: 60px 20px;
     text-align: center;
     color: #fff;
@@ -183,7 +218,7 @@ body {
 
 /* --- Services Section --- */
 .services-section {
-    background-color: #000; /* Black for contrast */
+    background-color: #000;
     padding: 60px 20px;
     text-align: center;
     color: #fff;
@@ -204,14 +239,14 @@ body {
 }
 
 .service-card {
-    background-color: #1a1a1a; /* Dark gray card background */
+    background-color: #1a1a1a;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Pushes button to bottom */
+    justify-content: space-between;
 }
 
 .service-card:hover {
@@ -223,13 +258,35 @@ body {
     color: #00BFFF;
     font-size: 1.8em;
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+/* --- Service Image Styling --- */
+.service-image {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.service-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: brightness(0.9) contrast(1.1);
+}
+
+.service-card:hover .service-image img {
+    transform: scale(1.05);
+    filter: brightness(1) contrast(1.2);
 }
 
 .service-card p {
     font-size: 1em;
     line-height: 1.6;
-    flex-grow: 1; /* Allows paragraph to take up available space */
+    flex-grow: 1;
     margin-bottom: 20px;
 }
 
@@ -242,7 +299,7 @@ body {
     border-radius: 5px;
     font-weight: bold;
     transition: background-color 0.3s ease, color 0.3s ease;
-    margin-top: auto; /* Pushes button to the bottom of the card */
+    margin-top: auto;
 }
 
 .contact-button:hover {
@@ -252,7 +309,7 @@ body {
 
 /* --- Portfolio Section --- */
 .portfolio-section {
-    background-color: #1a1a1a; /* Darker gray */
+    background-color: #1a1a1a;
     padding: 60px 20px;
     text-align: center;
     color: #fff;
@@ -277,18 +334,18 @@ body {
     gap: 30px;
     max-width: 1000px;
     margin: 0 auto;
-    padding: 20px 0; /* Add some padding around the message */
+    padding: 20px 0;
 }
 
 .portfolio-update-message {
-    grid-column: 1 / -1; /* Make the message span all columns */
+    grid-column: 1 / -1;
     font-size: 1.2em;
     font-style: italic;
     color: #ccc;
     padding: 30px;
     border: 1px dashed #00BFFF;
     border-radius: 8px;
-    background-color: rgba(0, 191, 255, 0.05); /* Very light blue background */
+    background-color: rgba(0, 191, 255, 0.05);
 }
 
 .portfolio-cta {
@@ -306,10 +363,9 @@ body {
     text-decoration: underline;
 }
 
-
 /* --- Contact Form Section --- */
 .contact-form-section {
-    background-color: #000; /* Black */
+    background-color: #000;
     padding: 60px 20px;
     text-align: center;
     color: #fff;
@@ -335,7 +391,7 @@ body {
     max-width: 600px;
     margin: 0 auto;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    text-align: left; /* Align form elements to the left within the container */
+    text-align: left;
 }
 
 .form-group {
@@ -352,20 +408,20 @@ body {
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group textarea {
-    width: calc(100% - 20px); /* Account for padding */
+    width: calc(100% - 20px);
     padding: 12px 10px;
     border: 1px solid #555;
     border-radius: 5px;
     background-color: #333;
     color: #fff;
     font-size: 1em;
-    box-sizing: border-box; /* Include padding in width calculation */
+    box-sizing: border-box;
 }
 
 .form-group input[type="text"]:focus,
 .form-group input[type="email"]:focus,
 .form-group textarea:focus {
-    border-color: #00BFFF; /* Highlight on focus */
+    border-color: #00BFFF;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
 }
@@ -389,6 +445,58 @@ body {
     color: #00BFFF;
 }
 
+/* --- Blog Section --- */
+.blog-section {
+    background-color: #1a1a1a;
+    padding: 120px 20px 60px;
+    min-height: 100vh;
+    color: #fff;
+}
+
+.blog-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.blog-section h1 {
+    color: #00BFFF;
+    font-size: 3em;
+    margin-bottom: 25px;
+}
+
+.blog-intro {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    color: #ccc;
+}
+
+.blog-placeholder {
+    background-color: #000;
+    padding: 40px;
+    border-radius: 10px;
+    border: 2px solid #00BFFF;
+}
+
+.blog-placeholder h2 {
+    color: #00BFFF;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.blog-placeholder ul {
+    text-align: left;
+    max-width: 400px;
+    margin: 20px auto;
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.blog-placeholder li {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
 
 /* --- Footer --- */
 footer {
@@ -423,6 +531,24 @@ footer {
         font-size: 1em;
     }
 
+    /* Video responsiveness */
+    .video-container {
+        margin: 20px auto 0;
+        border-radius: 10px;
+    }
+
+    .hero-video {
+        border-radius: 8px;
+    }
+
+    .video-overlay {
+        padding: 15px;
+    }
+
+    .video-overlay p {
+        font-size: 1em;
+    }
+
     .services-grid,
     .portfolio-grid {
         grid-template-columns: 1fr;
@@ -432,5 +558,47 @@ footer {
     .portfolio-item,
     .contact-form-container {
         padding: 25px;
+    }
+
+    .service-image img {
+        height: 150px;
+    }
+
+    .blog-section {
+        padding: 100px 20px 40px;
+    }
+
+    .blog-section h1 {
+        font-size: 2.5em;
+    }
+
+    .blog-placeholder {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        padding: 40px 15px;
+    }
+
+    .hero-section h1 {
+        font-size: 2em;
+    }
+
+    .hero-section .slogan {
+        font-size: 1.2em;
+    }
+
+    .video-container {
+        border-radius: 8px;
+    }
+
+    .service-image img {
+        height: 120px;
+    }
+
+    .contact-form-container {
+        padding: 20px;
     }
 }

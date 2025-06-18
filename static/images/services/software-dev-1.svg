@@ -1,0 +1,55 @@
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a2a2a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00BFFF;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#0080CC;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="200" fill="url(#bg)"/>
+  
+  <!-- Laptop -->
+  <rect x="120" y="90" width="160" height="100" rx="8" fill="#333" stroke="url(#accent)" stroke-width="2"/>
+  <rect x="130" y="100" width="140" height="80" rx="4" fill="#000"/>
+  
+  <!-- Code on screen -->
+  <rect x="135" y="110" width="60" height="3" fill="url(#accent)"/>
+  <rect x="135" y="120" width="40" height="3" fill="#fff"/>
+  <rect x="145" y="130" width="80" height="3" fill="url(#accent)"/>
+  <rect x="145" y="140" width="50" height="3" fill="#fff"/>
+  <rect x="135" y="150" width="90" height="3" fill="url(#accent)"/>
+  <rect x="155" y="160" width="30" height="3" fill="#fff"/>
+  
+  <!-- Keyboard -->
+  <rect x="125" y="182" width="150" height="8" rx="2" fill="#444"/>
+  
+  <!-- Mobile devices -->
+  <rect x="50" y="60" width="40" height="70" rx="8" fill="#333" stroke="url(#accent)" stroke-width="1"/>
+  <rect x="55" y="70" width="30" height="50" rx="2" fill="#000"/>
+  <rect x="58" y="75" width="24" height="2" fill="url(#accent)"/>
+  <rect x="58" y="85" width="20" height="2" fill="#fff"/>
+  <rect x="58" y="95" width="24" height="2" fill="url(#accent)"/>
+  
+  <!-- Tablet -->
+  <rect x="310" y="50" width="60" height="90" rx="8" fill="#333" stroke="url(#accent)" stroke-width="1"/>
+  <rect x="315" y="60" width="50" height="70" rx="2" fill="#000"/>
+  <rect x="320" y="70" width="20" height="2" fill="url(#accent)"/>
+  <rect x="320" y="80" width="35" height="2" fill="#fff"/>
+  <rect x="320" y="90" width="25" height="2" fill="url(#accent)"/>
+  <rect x="320" y="100" width="40" height="2" fill="#fff"/>
+  
+  <!-- Code brackets -->
+  <text x="60" y="180" font-family="monospace" font-size="24" font-weight="bold" fill="url(#accent)">&lt;/&gt;</text>
+  <text x="300" y="30" font-family="monospace" font-size="20" font-weight="bold" fill="url(#accent)">{}</text>
+  
+  <!-- Network connections -->
+  <circle cx="200" cy="50" r="3" fill="url(#accent)"/>
+  <line x1="90" y1="95" x2="197" y2="50" stroke="url(#accent)" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="280" y1="95" x2="203" y2="50" stroke="url(#accent)" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="340" y1="95" x2="203" y2="50" stroke="url(#accent)" stroke-width="2" stroke-dasharray="5,5"/>
+</svg>

@@ -3,43 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Script Technologies Jamaica - Blog</title>
+    <title>Blog - Script Technologies Jamaica</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        body {
-            background-color: #000; /* Dark background */
-            color: #fff; /* White text */
-            font-family: sans-serif;
-            padding-top: 70px; /* Adjust for fixed navbar */
-            text-align: center;
-        }
-        h1 {
-            color: #00BFFF; /* Light blue heading */
-            margin-top: 50px;
-        }
-        p {
-            font-size: 1.1em;
-            max-width: 600px;
-            margin: 20px auto;
-        }
-        .back-link {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 10px 20px;
-            border: 2px solid #00BFFF;
-            color: #00BFFF;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .back-link:hover {
-            background-color: #00BFFF;
-            color: #000;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Our Blog</h1>
-    <p>We're currently preparing exciting content for our blog. Please check back soon for updates!</p>
-    <a href="{{ url_for('index') }}" class="back-link">Go back to Home</a>
+    <nav class="navbar">
+        <ul class="navbar-list">
+            <li class="navbar-item"><a href="{{ url_for('index') }}#hero-section">Home</a></li>
+            <li class="navbar-item"><a href="{{ url_for('index') }}#about-section">About Us</a></li>
+            <li class="navbar-item"><a href="{{ url_for('index') }}#services-section">Services</a></li>
+            <li class="navbar-item"><a href="{{ url_for('index') }}#portfolio-section">Portfolio</a></li>
+            <li class="navbar-item"><a href="{{ url_for('blog') }}" class="active">Blog</a></li>
+            <li class="navbar-item"><a href="{{ url_for('index') }}#contact-form-section">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="blog-section">
+        <div class="blog-container">
+            <h1>Script Technologies Jamaica Blog</h1>
+            <p class="blog-intro">Stay updated with the latest insights, tips, and news from the world of business technology, automation, and digital transformation.</p>
+            
+            <div class="blog-content">
+                <div class="blog-placeholder">
+                    <h2>Coming Soon!</h2>
+                    <p>Our blog is currently under development. We'll be sharing valuable content about:</p>
+                    <ul>
+                        <li>Business Process Automation Tips</li>
+                        <li>AI Integration Best Practices</li>
+                        <li>Financial Management Insights</li>
+                        <li>Legal Compliance Updates</li>
+                        <li>Web Development Trends</li>
+                        <li>Technology News for Small Businesses</li>
+                    </ul>
+                    <p>Check back soon for our latest articles and insights!</p>
+                    <a href="{{ url_for('index') }}#contact-form-section" class="contact-button">Subscribe for Updates</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Script Technologies Jamaica. All rights reserved.</p>
+    </footer>
 </body>
 </html>

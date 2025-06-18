@@ -1,0 +1,70 @@
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a2a2a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00BFFF;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#0080CC;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="200" fill="url(#bg)"/>
+  
+  <!-- Central gear -->
+  <circle cx="200" cy="100" r="40" fill="none" stroke="url(#accent)" stroke-width="4"/>
+  <circle cx="200" cy="100" r="20" fill="url(#accent)" opacity="0.3"/>
+  
+  <!-- Gear teeth -->
+  <polygon points="200,60 210,70 190,70" fill="url(#accent)"/>
+  <polygon points="240,100 230,110 230,90" fill="url(#accent)"/>
+  <polygon points="200,140 190,130 210,130" fill="url(#accent)"/>
+  <polygon points="160,100 170,90 170,110" fill="url(#accent)"/>
+  
+  <!-- Smaller gears -->
+  <circle cx="120" cy="70" r="25" fill="none" stroke="url(#accent)" stroke-width="3"/>
+  <circle cx="120" cy="70" r="12" fill="url(#accent)" opacity="0.3"/>
+  <polygon points="120,45 128,52 112,52" fill="url(#accent)"/>
+  <polygon points="145,70 138,78 138,62" fill="url(#accent)"/>
+  <polygon points="120,95 112,88 128,88" fill="url(#accent)"/>
+  <polygon points="95,70 102,62 102,78" fill="url(#accent)"/>
+  
+  <circle cx="280" cy="130" r="25" fill="none" stroke="url(#accent)" stroke-width="3"/>
+  <circle cx="280" cy="130" r="12" fill="url(#accent)" opacity="0.3"/>
+  <polygon points="280,105 288,112 272,112" fill="url(#accent)"/>
+  <polygon points="305,130 298,138 298,122" fill="url(#accent)"/>
+  <polygon points="280,155 272,148 288,148" fill="url(#accent)"/>
+  <polygon points="255,130 262,122 262,138" fill="url(#accent)"/>
+  
+  <!-- Process flow arrows -->
+  <path d="M 50 50 Q 100 30 150 50" stroke="url(#accent)" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 250 50 Q 300 30 350 50" stroke="url(#accent)" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 50 150 Q 100 170 150 150" stroke="url(#accent)" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 250 150 Q 300 170 350 150" stroke="url(#accent)" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="url(#accent)"/>
+    </marker>
+  </defs>
+  
+  <!-- Process boxes -->
+  <rect x="30" y="40" width="40" height="20" rx="3" fill="#333" stroke="url(#accent)" stroke-width="1"/>
+  <text x="50" y="53" font-family="Arial, sans-serif" font-size="8" fill="#fff" text-anchor="middle">INPUT</text>
+  
+  <rect x="330" y="40" width="40" height="20" rx="3" fill="#333" stroke="url(#accent)" stroke-width="1"/>
+  <text x="350" y="53" font-family="Arial, sans-serif" font-size="8" fill="#fff" text-anchor="middle">OUTPUT</text>
+  
+  <!-- Robot arm -->
+  <rect x="60" y="120" width="80" height="6" rx="3" fill="url(#accent)"/>
+  <circle cx="60" cy="123" r="8" fill="#333" stroke="url(#accent)" stroke-width="2"/>
+  <circle cx="140" cy="123" r="6" fill="url(#accent)"/>
+  
+  <!-- Document stack -->
+  <rect x="300" y="160" width="30" height="25" rx="2" fill="#fff" opacity="0.9"/>
+  <rect x="305" y="155" width="30" height="25" rx="2" fill="#fff" opacity="0.7"/>
+  <rect x="310" y="150" width="30" height="25" rx="2" fill="#fff" opacity="0.5"/>
+</svg>

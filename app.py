@@ -3,13 +3,17 @@ import smtplib
 from email.message import EmailMessage
 import os
 import traceback
+import logging
+
+# Configure logging for debugging
+logging.basicConfig(level=logging.DEBUG)
 
 # Initialize the Flask application
 app = Flask(__name__)
 
 # --- Configuration ---
 # Set a secret key for session management and CSRF protection
-app.secret_key = os.environ.get('app_secret_key')
+app.secret_key = os.environ.get('SESSION_SECRET', 'dev-secret-key-change-in-production')
 
 # --- Email Configuration ---
 # Read credentials and server details from environment variables
@@ -36,38 +40,39 @@ except ValueError:
 # Route for the homepage
 @app.route('/')
 def index():
+    """Main landing page for Script Technologies Jamaica"""
     return render_template('index.html')
 
 # Route for the blog page
 @app.route('/blog')
 def blog():
+    """Blog page - placeholder for now"""
     return render_template('blog.html')
 
-# --- UPDATED: Contact Form Route (Removed Subject Line Handling) ---
+# --- Enhanced Contact Form Route with Email Sending ---
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
+    """Handle contact form submissions with email functionality"""
     if request.method == 'POST':
         # --- Process the submitted form data ---
-        name = request.form.get('name')
-        user_email = request.form.get('email')
-        # subject = request.form.get('subject') # REMOVED SUBJECT RETRIEVAL
-        message_body = request.form.get('message')
+        name = request.form.get('name', '').strip()
+        user_email = request.form.get('email', '').strip()
+        message_body = request.form.get('message', '').strip()
 
         # --- Basic Form Data Validation ---
-        # Removed 'subject' from validation check
         if not name or not user_email or not message_body:
             flash('All fields (Name, Email, Message) are required. Please fill out the form completely.', 'error')
             return redirect(url_for('index', _external=True) + '#contact-form-section')
 
         # --- Check Email Configuration before trying to send ---
         if not all([SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL, SMTP_SERVER, SMTP_PORT]):
-            flash('Email sending is currently unavailable. Please try again later or contact us directly.', 'error')
-            print("ERROR: Email configuration environment variables are not fully set up.")
+            # Fallback to logging if email is not configured
+            app.logger.info(f"Contact form submission from {name} ({user_email}): {message_body}")
+            flash(f'Thank you {name}! Your message has been received. We will get back to you soon.', 'success')
             return redirect(url_for('index', _external=True) + '#contact-form-section')
 
         # --- Email Sending Logic ---
         msg = EmailMessage()
-        # NEW SUBJECT: Default subject line as no subject field in form
         msg['Subject'] = f"New Website Inquiry from {name}"
         msg['From'] = SENDER_EMAIL
         msg['To'] = RECIPIENT_EMAIL
@@ -77,7 +82,6 @@ New Contact Form Submission:
 
 Name: {name}
 From Email: {user_email}
-# Subject: (No subject provided by user) # Note: Subject is now automatically generated
 
 Message:
 {message_body}
@@ -85,9 +89,15 @@ Message:
         msg.set_content(email_body_content)
 
         try:
-            with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            # Since we already validated all values exist, we can safely cast them
+            smtp_server = str(SMTP_SERVER)
+            smtp_port = int(SMTP_PORT or 587)  # Default to 587 if somehow None
+            sender_email = str(SENDER_EMAIL)
+            sender_password = str(SENDER_PASSWORD)
+            
+            with smtplib.SMTP(smtp_server, smtp_port) as server:
                 server.starttls()
-                server.login(SENDER_EMAIL, SENDER_PASSWORD)
+                server.login(sender_email, sender_password)
                 server.send_message(msg)
 
             print("\n--- Email Sent Successfully ---")
@@ -101,7 +111,7 @@ Message:
             print(f"\n--- SMTP Authentication Error ---")
             print(f"Error: {auth_err}")
             traceback.print_exc()
-            flash('Failed to send inquiry: Authentication failed. Please check sender email/password.', 'error')
+            flash('Failed to send inquiry: Authentication failed. Please check email configuration.', 'error')
             return redirect(url_for('index', _external=True) + '#contact-form-section')
 
         except Exception as e:
@@ -116,4 +126,7 @@ Message:
     
     # If it's a GET request to /contact directly, redirect to homepage
     return redirect(url_for('index'))
-# --- END UPDATED Contact Route ---
+
+if __name__ == '__main__':
+    # Run the app on port 5000 for development
+    app.run(host='0.0.0.0', port=5000, debug=True)

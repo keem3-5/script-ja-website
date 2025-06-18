@@ -1,0 +1,51 @@
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a2a2a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00BFFF;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#0080CC;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="200" fill="url(#bg)"/>
+  
+  <!-- Scale of Justice -->
+  <rect x="190" y="40" width="6" height="120" fill="url(#accent)"/>
+  <rect x="175" y="160" width="36" height="8" rx="4" fill="url(#accent)"/>
+  
+  <!-- Left scale -->
+  <circle cx="150" cy="50" r="25" fill="none" stroke="url(#accent)" stroke-width="3"/>
+  <rect x="125" y="45" width="50" height="10" rx="2" fill="#333"/>
+  <line x1="150" y1="75" x2="193" y2="50" stroke="url(#accent)" stroke-width="2"/>
+  
+  <!-- Right scale -->
+  <circle cx="230" cy="65" r="25" fill="none" stroke="url(#accent)" stroke-width="3"/>
+  <rect x="205" y="60" width="50" height="10" rx="2" fill="#333"/>
+  <line x1="230" y1="90" x2="193" y2="50" stroke="url(#accent)" stroke-width="2"/>
+  
+  <!-- Documents -->
+  <rect x="80" y="120" width="40" height="50" rx="3" fill="#fff" opacity="0.9"/>
+  <rect x="85" y="128" width="30" height="2" fill="#333"/>
+  <rect x="85" y="135" width="25" height="2" fill="#333"/>
+  <rect x="85" y="142" width="30" height="2" fill="#00BFFF"/>
+  <rect x="85" y="149" width="20" height="2" fill="#333"/>
+  
+  <rect x="130" y="130" width="40" height="50" rx="3" fill="#fff" opacity="0.9"/>
+  <rect x="135" y="138" width="30" height="2" fill="#333"/>
+  <rect x="135" y="145" width="25" height="2" fill="#333"/>
+  <rect x="135" y="152" width="30" height="2" fill="#00BFFF"/>
+  <rect x="135" y="159" width="20" height="2" fill="#333"/>
+  
+  <!-- Gavel -->
+  <rect x="280" y="130" width="30" height="8" rx="4" fill="#8B4513"/>
+  <rect x="290" y="120" width="10" height="25" rx="5" fill="url(#accent)"/>
+  <ellipse cx="295" cy="115" rx="8" ry="5" fill="#8B4513"/>
+  
+  <!-- Legal symbols -->
+  <text x="60" y="40" font-family="Times, serif" font-size="18" font-weight="bold" fill="url(#accent)">§</text>
+  <text x="320" y="50" font-family="Times, serif" font-size="16" font-weight="bold" fill="url(#accent)">¶</text>
+</svg>
