@@ -1,16 +1,17 @@
 <script>
     // --- Function to set active link ---
     // This function adds/removes the 'active' class which your CSS styles blue.
-    function setActiveLink(sectionId) 
+    function setActiveLink(sectionId) { // <--- FIXED: Added opening curly brace
         const navLinks = document.querySelectorAll('.navbar-list .navbar-item a');
-        navLinks.forEach(link = {
+        navLinks.forEach(link => { // <--- FIXED: Changed 'link = {' to 'link => {'
             link.classList.remove('active');
         });
         const activeLink = document.querySelector(`.navbar-list .navbar-item a[href="#${sectionId}"]`);
         if (activeLink) {
             activeLink.classList.add('active');
         }
-    
+    } // <--- FIXED: Added closing curly brace
+
 
     // --- Smooth scroll for internal links (Click handler) ---
     // This handles what happens when you click a navigation link.
@@ -25,7 +26,15 @@
             // 2. Smooth scroll to the target section, accounting for the fixed navbar.
             const targetId = this.getAttribute('href');
             const targetElement = document.querySelector(targetId);
-            const navbarHeight = document.querySelector('.navbar').offsetHeight; 
+
+            // Handle cases where targetElement might not exist (though it should if links are correct)
+            if (!targetElement) {
+                console.warn(`Target element for ID "${targetId}" not found.`);
+                return; // Stop execution if target not found
+            }
+
+            const navbar = document.querySelector('.navbar');
+            const navbarHeight = navbar ? navbar.offsetHeight : 0; // Get the height of your fixed navbar
 
             const targetPosition = targetElement.offsetTop - navbarHeight;
 
@@ -39,15 +48,16 @@
     // --- SCROLLSPY LOGIC (HIGHLIGHT ON SCROLL) ---
     // This is the part that makes the links turn blue as you scroll.
     window.addEventListener('scroll', () => {
-        const navbar = document.querySelector('.navbar'); 
+        const navbar = document.querySelector('.navbar');
         const navbarHeight = navbar ? navbar.offsetHeight : 0; // Get the height of your fixed navbar
 
         // Define a "trigger line" just below your fixed navbar.
         // When the top of a section crosses this line, that section's link will highlight.
         // Adding +5 pixels gives a small buffer for smoother transitions.
-        const scrollTriggerLine = window.scrollY + navbarHeight + 5; 
+        const scrollTriggerLine = window.scrollY + navbarHeight + 5;
 
-        let currentActiveSectionId = 'hero-section'; // Default to 'hero-section' (Home) if no other section is detected
+        // Default to 'hero-section' (Home) if no other section is detected, ensures a highlight.
+        let currentActiveSectionId = 'hero-section';
 
         const sections = document.querySelectorAll('section[id]'); // Get all your page sections
 
@@ -82,6 +92,8 @@
     // --- Initial active state on page load ---
     // Ensures 'Home' is highlighted when the page first loads.
     document.addEventListener('DOMContentLoaded', () => {
-        setActiveLink('hero-section');
+        // Trigger the scroll event immediately on load to set the initial active link
+        // based on the current scroll position (usually the top).
+        window.dispatchEvent(new Event('scroll'));
     });
 </script>
